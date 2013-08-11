@@ -1,81 +1,4 @@
-snippet segtree "Segment Tre" !b
-#define MAXN 111111
-int tree[4*MAXN];
-int lazy[4*MAXN];
-vector<int> v;
-
-void build(int node,int start,int end)
-{
-    if(start>end)
-        return ;
-    if(start==end)
-    {
-        tree[node]=v[start-1];
-       return ; 
-    }
-
-    int mid=(start+end)>>1;
-    build(2*node,start,mid);
-    build(2*node+1,mid+1,end);
-
-    tree[node]=tree[2*node]+tree[2*node+1];
-}
-void update(int node,int start,int end,int p,int q,int d)
-{
-    if(lazy[node]!=0)
-    {
-        tree[node]+=lazy[node];
-        if(start!=end){
-            lazy[2*node]+=(lazy[node]);
-            lazy[2*node+1]+=lazy[node];
-        }
-        lazy[node]=0;
-    }
-    if(start>end||start>q||end<p)
-        return ;
-    if(start>=p&&q>=end)
-    {
-        tree[node]+=d;
-        if(start!=end){
-            lazy[2*node]+=(d);
-            lazy[2*node+1]+=d;
-        }
-        return ;
-
-    }
-
-    int mid=(start+end)>>1;
-    update(2*node,start,mid,p,q,d);
-    update(2*node+1,mid+1,end,p,q,d);
-
-    tree[node]=tree[2*node]+tree[2*node+1];
-}
-int query(int node,int start,int end,int p,int q)
-{
-    if(start>end||start>q||end<p)
-        return 0;
-    if(lazy[node]!=0)
-    {
-        tree[node]+=lazy[node];
-        if(start!=end){
-            lazy[2*node]+=(lazy[node]);
-            lazy[2*node+1]+=lazy[node];
-        }
-        lazy[node]=0;
-    }
-    if(start>=p&&q>=end)
-    {
-        return tree[node];
-    }
-    int mid=(start+end)>>1;
-
-    return query(2*node,start,mid,p,q)+
-        query(2*node+1,mid+1,end,p,q);
-
-}
-endsnippet
 snippet sieve "sieve" !b
-    vector<int> primes;
     primes.push_back(2);
     for(int i=3;i<MAXN;i+=2)
     {
@@ -84,7 +7,7 @@ snippet sieve "sieve" !b
             primes.push_back(i);
             for(int j=2*i;j<MAXN;j+=i)
             {
-                mark[j]=1;
+                mark[i]=1;
             }
         }
     }
@@ -104,7 +27,7 @@ vector<int> factorize(int x)
     return ret;
 }
 endsnippet
-snippet tobinary "tobianary" !b
+snippet unionfind "Union Find DS" !b
 string tobinary(int x)
 {
     string ret;
@@ -181,17 +104,11 @@ string tostring(int x)
     return os.str();
 }
 endsnippet
-snippet pair "define pair" !b
-#define ii pair<int,int>
-endsnippet
 snippet ll "define ll" !b
 #define ll long long
 endsnippet
 snippet mod "define mod" !b
 #define mod 1000000007
-endsnippet
-snippet maxn "define max" !b
-#define MAXN 1111111
 endsnippet
 snippet modpow "modpow function" !b
 long long modpow(long long n,long long p)
