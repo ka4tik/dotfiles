@@ -1,3 +1,36 @@
+snippet iii "iii" !b
+#define iii pair< int,pair<int,int> >
+endsnippet
+snippet dj "Dijstras" !b
+        multiset<ii> q;
+
+        q.insert(ii(0,N));
+        vector<int> d(N+2,INT_MAX);
+        vector<int> visit(N+2,0);
+        d[N]=0;
+
+        while(q.size()>0)
+        {
+            ii c=*q.begin();
+            q.erase(q.begin());
+            if(c.second==N+1)
+                break;
+            if(visit[c.second]) continue;
+            visit[c.second]=1;
+
+            for(int i=0;i<N+2;i++)
+            {
+                if(visit[i]) continue;
+                if(d[i]>c.first+dist(i,c.second))
+                {
+                    d[i]=c.first+dist(i,c.second);
+                    q.insert(ii(d[i],i));
+                }
+
+            }
+
+        }
+endsnippet
 snippet segtree "Segment Tre" !b
 #define MAXN 111111
 int tree[4*MAXN];
@@ -181,7 +214,7 @@ string tostring(int x)
     return os.str();
 }
 endsnippet
-snippet pair "define pair" !b
+snippet ii "define pair" !b
 #define ii pair<int,int>
 endsnippet
 snippet ll "define ll" !b

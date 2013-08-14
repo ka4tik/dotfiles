@@ -20,6 +20,8 @@ Bundle 'scrooloose/syntastic'
 Bundle 'scrooloose/nerdtree'
 Bundle 'flazz/vim-colorschemes'
 Bundle 'Lokaltog/vim-powerline'
+Bundle 'Raimondi/delimitMate'
+Bundle 'uguu-org/vim-matrix-screensaver'
 "Bundle 'Valloric/YouCompleteMe'
 "Bundle 'vim-scripts/Wombat'
 "Bundle 'baskerville/bubblegum'
@@ -43,7 +45,8 @@ syntax enable
 "let g:solarized_termcolors=256
 "set background=light
 "colorscheme solarized
-color xoria256
+color Monokai 
+"color xoria256
 nmap \q :nohlsearch<CR>
 set incsearch
 set ignorecase
