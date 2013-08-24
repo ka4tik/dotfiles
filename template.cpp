@@ -16,4 +16,6 @@ int main()
     {
         s(v[i]);
     }
+
+    return 0;
 }
