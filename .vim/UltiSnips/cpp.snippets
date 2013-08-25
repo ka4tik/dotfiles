@@ -1,3 +1,51 @@
+snippet iarray "input an array" !b
+for(int i=0;i<N;i++)
+{
+	s(v[i]);
+}
+endsnippet
+snippet igrid "input a Matrix" !b
+scanf("%d %d",&N,&M);
+for(int i=0;i<N;i++)
+{
+	scanf("%s",temp);
+	for(int j=0;j<M;j++)
+	{
+		grid[i][j]=temp[j];
+	}
+}
+endsnippet
+snippet isvalid "Description" !b
+if(nx>=N||nx<0||ny<0||ny>=M)
+endsnippet
+snippet bfs  "Bfs" !b
+queue<int> q;
+q.push(startx);
+q.push(starty);
+while(!q.empty())
+{
+	int cx=q.front();q.pop();
+	int cy=q.front();q.pop();
+	visit[cx][cy]=1;
+	for(int k=0;k<4;k++)
+	{
+		int nx=cx+dx[k];
+		int ny=cy+dy[k];
+
+		if(nx>=N||nx<0||ny<0||ny>=M)
+			continue;
+		if(grid[nx][ny]!='#'&&!visit[nx][ny])
+		{
+			visit[nx][ny]=1;
+			q.push(nx);
+			q.push(ny);
+
+		}
+
+	}
+
+}
+endsnippet
 snippet miller "Miller rabin Primility Test" !b
 LL mulmod(LL a, LL b, LL c)
 {

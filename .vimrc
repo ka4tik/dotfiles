@@ -20,13 +20,25 @@ Bundle 'scrooloose/syntastic'
 Bundle 'scrooloose/nerdtree'
 Bundle 'flazz/vim-colorschemes'
 Bundle 'Lokaltog/vim-powerline'
-Bundle 'Raimondi/delimitMate'
 Bundle 'uguu-org/vim-matrix-screensaver'
+Bundle 'tpope/vim-endwise'
+Bundle 'sjl/gundo.vim'
+Bundle 'tpope/vim-surround'
+Bundle 'vim-scripts/matchit.zip'
+Bundle 'tomasr/molokai'
+Bundle 'vim-scripts/mru.vim'
+
+"Bundle 'Raimondi/delimitMate'
 "Bundle 'Valloric/YouCompleteMe'
 "Bundle 'vim-scripts/Wombat'
 "Bundle 'baskerville/bubblegum'
 
- filetype plugin indent on 
+filetype plugin indent on 
+
+noremap <F5> :GundoToggle<CR>
+noremap <F6> :UltiSnipsEdit<CR>
+noremap <F7> :vsp ~/.vimrc<CR>
+noremap <F8> :source $MYVIMRC<CR>
  
 "added map for adding tempalate 
 nnoremap nkl :0r ~/template.cpp<CR>
@@ -46,6 +58,7 @@ syntax enable
 "set background=light
 "colorscheme solarized
 color Monokai 
+"color molokai 
 "color xoria256
 nmap \q :nohlsearch<CR>
 set incsearch
