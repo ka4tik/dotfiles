@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 snippet iarray "input an array" !b
 for(int i=0;i<N;i++)
 {
@@ -122,6 +123,7 @@ vector<string> split(std::string const &input) {
     return ret;
 }
 endsnippet
+=======
 snippet point "point libary" !b
 const double PI = acos(-1.0);
 const double EPS = 1E-8;
@@ -293,6 +295,7 @@ double Area(vector<Point> &v)
 }
 endsnippet
 
+>>>>>>> 3a24ba1a2fad09e17df5a9368e70858f488b9b39
 snippet iii "iii" !b
 #define iii pair< int,pair<int,int> >
 endsnippet
