@@ -1,3 +1,7 @@
+snippet pll "Description" !b
+:wq
+printf("%lld\n",$1);
+endsnippet
 snippet iarray "input an array" !b
 for(int i=0;i<N;i++)
 {
@@ -94,7 +98,7 @@ bool isprime(LL p, int iter)
 }
 endsnippet
 snippet for "Description" !b
-for(int i=0;i<N;i++)
+for(int i=$1;i<$2;i++)
 {
 
 }
@@ -297,34 +301,34 @@ snippet iii "iii" !b
 #define iii pair< int,pair<int,int> >
 endsnippet
 snippet dj "Dijstras" !b
-        multiset<ii> q;
+multiset<ii> q;
 
-        q.insert(ii(0,N));
-        vector<int> d(N+2,INT_MAX);
-        vector<int> visit(N+2,0);
-        d[N]=0;
+q.insert(ii(0,N));
+vector<int> d(N+2,INT_MAX);
+vector<int> visit(N+2,0);
+d[N]=0;
 
-        while(q.size()>0)
-        {
-            ii c=*q.begin();
-            q.erase(q.begin());
-            if(c.second==N+1)
-                break;
-            if(visit[c.second]) continue;
-            visit[c.second]=1;
+while(q.size()>0)
+{
+	ii c=*q.begin();
+	q.erase(q.begin());
+	if(c.second==N+1)
+		break;
+	if(visit[c.second]) continue;
+	visit[c.second]=1;
 
-            for(int i=0;i<N+2;i++)
-            {
-                if(visit[i]) continue;
-                if(d[i]>c.first+dist(i,c.second))
-                {
-                    d[i]=c.first+dist(i,c.second);
-                    q.insert(ii(d[i],i));
-                }
+	for(int i=0;i<N+2;i++)
+	{
+		if(visit[i]) continue;
+		if(d[i]>c.first+dist(i,c.second))
+		{
+			d[i]=c.first+dist(i,c.second);
+			q.insert(ii(d[i],i));
+		}
 
-            }
+	}
 
-        }
+}
 endsnippet
 snippet segtree "Segment Tre" !b
 #define MAXN 111111
@@ -402,20 +406,40 @@ int query(int node,int start,int end,int p,int q)
 
 }
 endsnippet
+snippet sieveip "sieve is prime " !b
+bool isprime(int n)
+{
+	if(n<2) return 0;
+	if(n==2) return 1;
+	if(!(n&1)) return 0;
+	else
+		return !mark[n>>1];
+}
+endsnippet
 snippet sieve "sieve" !b
-    vector<int> primes;
-    primes.push_back(2);
-    for(int i=3;i<MAXN;i+=2)
-    {
-        if(!mark[i])
-        {
-            primes.push_back(i);
-            for(int j=2*i;j<MAXN;j+=i)
-            {
-                mark[j]=1;
-            }
-        }
-    }
+vector<bool> mark(MAXN>>1);
+vector<int> primes;
+primes.push_back(2);
+int i;
+for(i=3;i*i<MAXN;i+=2)
+{
+	if(!mark[i>>1])
+	{
+		for(int j=i*i;j<MAXN;j+=2*i)
+		{
+			mark[j>>1]=1;	
+		}
+		primes.push_back(i);
+	}
+
+}
+for(;i<MAXN;i+=2)
+{
+	if(!mark[i>>1])
+	{
+		primes.push_back(i);
+	}
+}
 endsnippet
 snippet factorize "factorize" !b
 vector<int> factorize(int x)
