@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 snippet iarray "input an array" !b
 for(int i=0;i<N;i++)
 {
@@ -122,6 +123,179 @@ vector<string> split(std::string const &input) {
     return ret;
 }
 endsnippet
+=======
+snippet point "point libary" !b
+const double PI = acos(-1.0);
+const double EPS = 1E-8;
+
+bool zero(double x)
+{
+	return -EPS < x && x < EPS;
+}
+
+int sgn(double x)
+{
+	return x > EPS ? 1 : (x < -EPS ? -1 : 0);
+}
+
+class Point
+{
+	public:
+	double x, y;
+	Point() {}
+	Point(double x, double y) : x(x), y(y) {}
+	void init()
+	{
+		scanf("%lf%lf", &x, &y);
+	}
+	void print() const
+	{
+		printf("Point(%lf %lf)\n", x, y);
+	}
+	bool operator < (const Point & rhs) const
+	{
+		return x < rhs.x - EPS || (zero(x - rhs.x) && y < rhs.y - EPS);
+		}
+	bool operator == (const Point & rhs) const
+	{
+		return zero(x - rhs.x) && zero(y - rhs.y);
+		}
+	Point operator - (const Point & rhs) const
+	{
+		return Point(x - rhs.x, y - rhs.y);
+		}
+	Point operator + (const Point & rhs) const
+	{
+		return Point(x + rhs.x, y + rhs.y);
+		}
+	Point operator * (const double scale) const
+	{
+		return Point(x * scale, y * scale);
+		}
+	Point operator / (const double scale) const
+	{
+		return Point(x / scale, y / scale);
+		}
+	double operator * (const Point & rhs) const
+	{
+		return x * rhs.y - rhs.x * y;
+		}
+	double operator ^ (const Point & rhs) const
+	{
+		return x * rhs.x + y * rhs.y;
+		}
+	Point rotate(double angle) const
+	{
+		Point p(sin(angle), cos(angle));
+		return Point((*this) * p, (*this) ^ p);
+	}
+	double length2() const
+	{
+		return x * x + y * y;
+	}
+	double length() const
+	{
+		return sqrt(this->length2());
+		}
+	Point trunc(const double scale) const
+	{
+		return (*this) / this->length() * scale;
+		}
+	double angle() const
+	{
+		return atan2(y, x);
+		}
+	Point perpendicular() const
+	{
+		return Point(-y, x);
+		}
+};
+
+class Line
+{
+	public:
+		Point l1, l2;
+		Line() {}
+		Line(Point l1, Point l2) : l1(l1), l2(l2) {}
+		void init()
+		{
+			l1.init();
+			l2.init();
+		}
+		void print() const
+		{
+			printf("Line[(%lf %lf)--(%lf %lf)]\n", l1.x, l1.y, l2.x, l2.y);
+			}
+		bool cross(const Point & p) const
+		{
+			return zero((p - l2) * (l1 - l2));
+		}
+		bool cross(const Line &rhs) const
+		{
+			return !this->parallel(rhs);
+			}
+		bool parallel(const Line &rhs) const
+		{
+			return zero((l1 - l2) * (rhs.l1 - rhs.l2));
+		}
+		Point intersection(const Line &rhs) const
+		{
+			return l1 + (l2 - l1) * (((l1 - rhs.l1) * (rhs.l1 - rhs.l2)) / ((l1 - l2) * (rhs.l1 - rhs.l2)));
+		}
+		Point projection(const Point &p) const
+		{
+			return this->intersection(Line(p, p + (l1 - l2).perpendicular()));
+		}
+		double distance(const Point &p) const
+		{
+			return ((p - l1) * (l2 - l1)) / (l1 - l2).length();
+		}
+		//For finding the perpendicular bisector of a line.
+		Line perpendicular_bisector() const
+		{
+			Point p1=Point( (l1.x+l2.x)/2 , (l1.y+l2.y)/2);
+			double m;
+			Point p2;
+			if( zero(l1.x-l2.x) )
+			{
+				m=0;
+				p2=Point(p1.x+10, p1.y);
+			}
+			else{
+				m=(l1.y-l2.y)/(l1.x-l2.x);
+				if( zero(m) )
+				{
+					p2=Point(p1.x, p1.y+10);
+				}
+				else
+				{
+					m=-1/m;
+					p2=Point(p1.x+10, p1.y+(10*m));
+				}
+			}
+			return Line(p1, p2);
+		}
+};
+
+//Finding the area of a polygon, all points must be in order.
+double Area(vector<Point> &v)
+{
+	int n=v.size();
+
+	double area=0;
+
+	for(int i=1; i<n-1; i++)
+	{
+		Point p1=v[i]-v[0];
+		Point p2=v[i+1]-v[0];
+		//cout << p1*p2<< endl;
+		area+= (p1*p2);
+	}
+	return abs(area/2);
+}
+endsnippet
+
+>>>>>>> 3a24ba1a2fad09e17df5a9368e70858f488b9b39
 snippet iii "iii" !b
 #define iii pair< int,pair<int,int> >
 endsnippet
