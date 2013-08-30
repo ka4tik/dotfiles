@@ -1,6 +1,38 @@
+snippet randdouble "Description" !b
+double randdouble()
+{
+    return double(rand())/double(RAND_MAX);
+}
+endsnippet
+snippet db "Debug Macros" !b
+#define db(x) cout<<#x<<" : "<<x<<endl;
+#define db2(x,y) cout<<#x<<" : "<<x<<" "<<#y<<" : "<<y<<endl;
+#define db3(x,y,z) cout<<#x<<" : "<<x<<" "<<#y<<" : "<<y<<" "<<#z<<" : "<<z<<endl;
+endsnippet
+snippet modmul "Eutopian Multiplication" !b
+long long modmul(long long n,long long p)
+{
+    long long ret=1;
+    while(p)
+    {
+        if(p&1){
+            ret=ret+n;
+            if(ret>=mod) ret%=mod;
+        }
+
+        p=p>>1;
+        n=(n<<1);
+        if(n>=mod)
+            n%=mod;
+    }
+    return ret;
+}
+endsnippet
 snippet pll "Description" !b
-:wq
 printf("%lld\n",$1);
+endsnippet
+snippet p "Description" !b
+printf("%d\n",$1);
 endsnippet
 snippet iarray "input an array" !b
 for(int i=0;i<N;i++)
