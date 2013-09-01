@@ -88,12 +88,17 @@ set tabstop=4 " tab width is 4 spaces
 set shiftwidth=4 " indent also with 4 spaces
 set expandtab " expand tabs to spaces
 
-set foldmethod=marker
+"set foldmethod=marker
+set foldmethod=manual
 set number
 set backspace=indent,eol,start
 
 " Remember cursor position
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+
+" Remember folds 
+au BufWinLeave * mkview
+au BufWinEnter * silent loadview
 
 let g:HackerEarthApiClientKey = "d11dcf4e7dc530bbd785e0400313b65583b31de7"
 

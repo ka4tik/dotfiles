@@ -1,4 +1,3 @@
 dotfiles
 ========
-
-my dotfiles 
+Contains my vim dotfiles 
