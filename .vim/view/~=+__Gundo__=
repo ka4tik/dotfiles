@@ -5,9 +5,9 @@ setlocal noarabic
 setlocal autoindent
 setlocal balloonexpr=
 setlocal nobinary
-setlocal bufhidden=
-setlocal buflisted
-setlocal buftype=
+setlocal bufhidden=hide
+setlocal nobuflisted
+setlocal buftype=nofile
 setlocal nocindent
 setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
 setlocal cinoptions=
@@ -30,8 +30,8 @@ setlocal nodiff
 setlocal equalprg=
 setlocal errorformat=
 setlocal expandtab
-if &filetype != ''
-setlocal filetype=
+if &filetype != 'gundo'
+setlocal filetype=gundo
 endif
 setlocal foldcolumn=0
 setlocal foldenable
@@ -62,16 +62,16 @@ setlocal nolist
 setlocal makeprg=
 setlocal matchpairs=(:),{:},[:]
 setlocal modeline
-setlocal modifiable
+setlocal nomodifiable
 setlocal nrformats=octal,hex
-setlocal number
+setlocal nonumber
 setlocal numberwidth=4
 setlocal omnifunc=
 setlocal path=
 setlocal nopreserveindent
 setlocal nopreviewwindow
 setlocal quoteescape=\\
-setlocal readonly
+setlocal noreadonly
 setlocal norelativenumber
 setlocal norightleft
 setlocal rightleftcmd=search
@@ -84,12 +84,12 @@ setlocal nospell
 setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
 setlocal spellfile=
 setlocal spelllang=en
-setlocal statusline=%!Pl#Statusline(0,1)
+setlocal statusline=%!Pl#Statusline(2,0)
 setlocal suffixesadd=
-setlocal swapfile
+setlocal noswapfile
 setlocal synmaxcol=3000
-if &syntax != ''
-setlocal syntax=
+if &syntax != 'gundo'
+setlocal syntax=gundo
 endif
 setlocal tabstop=4
 setlocal tags=
@@ -98,15 +98,15 @@ setlocal thesaurus=
 setlocal noundofile
 setlocal nowinfixheight
 setlocal nowinfixwidth
-setlocal wrap
+setlocal nowrap
 setlocal wrapmargin=0
-silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 10) / 20)
+let s:l = 6 - ((0 * winheight(0) + 12) / 25)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
-normal! 0
+6
+normal! 01l
+lcd ~/
 let &so = s:so_save | let &siso = s:siso_save
 doautoall SessionLoadPost
 " vim: set ft=vim :

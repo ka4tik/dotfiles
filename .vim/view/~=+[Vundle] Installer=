@@ -1,5 +1,19 @@
 let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
 argglobal
+nnoremap <buffer> ? :norm h
+nnoremap <buffer> C :BundleClean!
+nnoremap <buffer> D :exec 'Delete'.getline('.')
+nnoremap <buffer> I :exec 'InstallAndRequire'.substitute(getline('.'), '^Bundle ', 'Bundle! ', '')
+nnoremap <buffer> R :call vundle#scripts#reload()
+nnoremap <buffer> add! :exec 'Install'.substitute(getline('.'), '^Bundle ', 'Bundle! ', '')
+nnoremap <buffer> add :exec 'Install'.getline('.')
+nnoremap <buffer> c :BundleClean
+nnoremap <buffer> h :h vundle
+nnoremap <buffer> i :exec 'InstallAndRequire'.getline('.')
+nnoremap <buffer> l :VundleLog
+nnoremap <buffer> q :silent bd!
+nnoremap <buffer> s :BundleSearch 
+nnoremap <buffer> u :VundleChangelog
 setlocal keymap=
 setlocal noarabic
 setlocal autoindent
@@ -7,7 +21,7 @@ setlocal balloonexpr=
 setlocal nobinary
 setlocal bufhidden=
 setlocal buflisted
-setlocal buftype=
+setlocal buftype=nofile
 setlocal nocindent
 setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
 setlocal cinoptions=
@@ -23,15 +37,15 @@ setlocal nocopyindent
 setlocal cryptmethod=
 setlocal nocursorbind
 setlocal nocursorcolumn
-setlocal nocursorline
+setlocal cursorline
 setlocal define=
 setlocal dictionary=
 setlocal nodiff
 setlocal equalprg=
 setlocal errorformat=
 setlocal expandtab
-if &filetype != ''
-setlocal filetype=
+if &filetype != 'vundle'
+setlocal filetype=vundle
 endif
 setlocal foldcolumn=0
 setlocal foldenable
@@ -62,14 +76,14 @@ setlocal nolist
 setlocal makeprg=
 setlocal matchpairs=(:),{:},[:]
 setlocal modeline
-setlocal modifiable
+setlocal nomodifiable
 setlocal nrformats=octal,hex
-setlocal number
+setlocal nonumber
 setlocal numberwidth=4
 setlocal omnifunc=
 setlocal path=
 setlocal nopreserveindent
-setlocal nopreviewwindow
+setlocal previewwindow
 setlocal quoteescape=\\
 setlocal readonly
 setlocal norelativenumber
@@ -84,28 +98,27 @@ setlocal nospell
 setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
 setlocal spellfile=
 setlocal spelllang=en
-setlocal statusline=%!Pl#Statusline(0,1)
+setlocal statusline=%!Pl#Statusline(0,0)
 setlocal suffixesadd=
-setlocal swapfile
+setlocal noswapfile
 setlocal synmaxcol=3000
-if &syntax != ''
-setlocal syntax=
+if &syntax != 'vim'
+setlocal syntax=vim
 endif
 setlocal tabstop=4
 setlocal tags=
 setlocal textwidth=0
 setlocal thesaurus=
 setlocal noundofile
-setlocal nowinfixheight
+setlocal winfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 10) / 20)
+let s:l = 21 - ((20 * winheight(0) + 19) / 38)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
+21
 normal! 0
 let &so = s:so_save | let &siso = s:siso_save
 doautoall SessionLoadPost

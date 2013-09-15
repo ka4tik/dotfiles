@@ -1,3 +1,113 @@
+snippet gentree  "Genrate Random Tree" !b
+#define ii pair<int,int>
+struct DisjointSet {
+    int *root, *rank, n;
+    DisjointSet(int sz) {
+        root = new int[sz+1];
+        rank = new int[sz+1];
+        n = sz;
+    }
+    ~DisjointSet() {
+        delete[] root;
+        delete[] rank;
+    }
+    void init() {
+        for(int i = 1; i <= n; i++) {
+            root[i] = i;
+            rank[i] = 0;
+        }
+    }
+    int find(int u) {
+        if(u != root[u]) root[u] = find(root[u]);
+        return root[u];
+    }
+    void merge(int u, int v) {
+        int pu = find(u);
+        int pv = find(v);
+        if(rank[pu] > rank[pv]) root[pv] = pu;
+        else root[pu] = pv;
+        if(rank[pu]==rank[pv]) rank[pv]++;
+    }
+};
+void gentree()
+{
+    ofstream file;
+    file.open("in");
+    int n=5;
+    DisjointSet ds(n);
+    ds.init();
+    int q;
+    q=5;
+    file<<n<<" "<<q<<endl;
+    vector<ii> edges;
+    while(edges.size()<n-1)
+    {
+        int a=(rand()%n)+1;
+        int b=(rand()%n)+1;
+        if(a==b) continue;
+        if(ds.find(a)!=ds.find(b))
+        {
+            if(find(edges.begin(),edges.end(),ii(a,b))==edges.end()&&
+                    find(edges.begin(),edges.end(),ii(b,a))==edges.end()    )
+            {
+                ds.merge(a,b);
+                edges.push_back(ii(a,b));
+            }
+        }
+    }
+    for(int i=0;i<n;i++)
+    {
+        file<<rand()%10<<" ";
+    }
+    file<<endl;
+    for(int i=0;i<edges.size();i++)
+    {
+        file<<edges[i].first<< " "<<edges[i].second<<endl;
+    }
+    //file<<endl;
+    for(int i=0;i<q;i++)
+    {
+        if(rand()&1)
+        {
+            file<<"U "<<(rand()%n)+1<<" "<<(rand()%n)+1<<endl;
+        }
+        else
+            file<<"Q "<<(rand()%n)+1<<endl;
+    }
+    file.close();
+}
+endsnippet
+snippet dset "Union-Find DS" !b
+struct disjointset {
+    int *root, *rank, n;
+    disjointset(int sz) {
+        root = new int[sz+1];
+        rank = new int[sz+1];
+        n = sz;
+    }
+    ~DisjointSet() {
+        delete[] root;
+        delete[] rank;
+    }
+    void init() {
+        for(int i = 1; i <= n; i++) {
+            root[i] = i;
+            rank[i] = 0;
+        }
+    }
+    int find(int u) {
+        if(u != root[u]) root[u] = find(root[u]);
+        return root[u];
+    }
+    void merge(int u, int v) {
+        int pu = find(u);
+        int pv = find(v);
+        if(rank[pu] > rank[pv]) root[pv] = pu;
+        else root[pu] = pv;
+        if(rank[pu]==rank[pv]) rank[pv]++;
+    }
+};
+endsnippet
 snippet invcount "inversion count" !b
 vector<int> temp(maxn);
 long long merge(vector<int> &v,int start,int end)

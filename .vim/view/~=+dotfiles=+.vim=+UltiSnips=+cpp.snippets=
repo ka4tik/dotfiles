@@ -101,88 +101,92 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 1
+normal zo
+80
+normal zo
+111
+normal zo
+148
 normal zc
-38
+180
 normal zc
-70
+224
 normal zc
-114
+230
+normal zo
+235
 normal zc
-120
+254
 normal zc
-125
+257
 normal zc
-144
+285
 normal zc
-147
+332
 normal zc
-175
+338
 normal zc
-222
+344
 normal zc
-228
+350
 normal zc
-234
+361
 normal zc
-240
+531
 normal zc
-251
+534
 normal zc
-421
+564
 normal zc
-424
+640
 normal zc
-454
+650
 normal zc
-530
-normal zc
-540
-normal zc
-565
-normal zc
-580
-normal zc
-592
-normal zc
-596
-normal zc
-618
-normal zc
-633
-normal zc
-636
-normal zc
-639
-normal zc
-645
-normal zc
-656
-normal zc
-660
-normal zc
-664
-normal zc
-673
-normal zc
-681
-normal zc
-684
-normal zc
-687
+675
 normal zc
 690
 normal zc
-693
+702
 normal zc
-712
+706
+normal zc
+728
+normal zc
+743
+normal zc
+746
+normal zc
+749
+normal zc
+755
+normal zc
+766
+normal zc
+770
+normal zc
+774
+normal zc
+783
+normal zc
+791
+normal zc
+794
+normal zo
+797
 normal zc
 800
 normal zc
-let s:l = 800 - ((578 * winheight(0) + 21) / 42)
+803
+normal zc
+822
+normal zc
+910
+normal zc
+let s:l = 79 - ((0 * winheight(0) + 21) / 42)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-800
+79
 normal! 0
 lcd ~/
 let &so = s:so_save | let &siso = s:siso_save
