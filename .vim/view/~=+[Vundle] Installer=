@@ -1,19 +1,37 @@
 let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
 argglobal
+let s:cpo_save=&cpo
+set cpo&vim
+nmap <buffer> '[ <Plug>SIG_PrevLineByAlpha
+nmap <buffer> '] <Plug>SIG_NextLineByAlpha
 nnoremap <buffer> ? :norm h
 nnoremap <buffer> C :BundleClean!
 nnoremap <buffer> D :exec 'Delete'.getline('.')
 nnoremap <buffer> I :exec 'InstallAndRequire'.substitute(getline('.'), '^Bundle ', 'Bundle! ', '')
 nnoremap <buffer> R :call vundle#scripts#reload()
-nnoremap <buffer> add! :exec 'Install'.substitute(getline('.'), '^Bundle ', 'Bundle! ', '')
+nmap <buffer> [- <Plug>SIG_PrevMarkerByType
+nmap <buffer> [` <Plug>SIG_PrevSpotByPos
+nmap <buffer> [' <Plug>SIG_PrevLineByPos
+nmap <buffer> ]- <Plug>SIG_NextMarkerByType
+nmap <buffer> ]` <Plug>SIG_NextSpotByPos
+nmap <buffer> ]' <Plug>SIG_NextLineByPos
+nmap <buffer> `[ <Plug>SIG_PrevSpotByAlpha
+nmap <buffer> `] <Plug>SIG_NextSpotByAlpha
 nnoremap <buffer> add :exec 'Install'.getline('.')
+nnoremap <buffer> add! :exec 'Install'.substitute(getline('.'), '^Bundle ', 'Bundle! ', '')
 nnoremap <buffer> c :BundleClean
 nnoremap <buffer> h :h vundle
 nnoremap <buffer> i :exec 'InstallAndRequire'.getline('.')
 nnoremap <buffer> l :VundleLog
+nmap <buffer> m<BS> <Plug>SIG_PurgeMarkers
+nmap <buffer> m  <Plug>SIG_PurgeMarks
+nmap <buffer> m, <Plug>SIG_PlaceNextMark
+nnoremap <buffer> <silent> m :call signature#Input()
 nnoremap <buffer> q :silent bd!
 nnoremap <buffer> s :BundleSearch 
 nnoremap <buffer> u :VundleChangelog
+let &cpo=s:cpo_save
+unlet s:cpo_save
 setlocal keymap=
 setlocal noarabic
 setlocal autoindent
@@ -114,12 +132,13 @@ setlocal winfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 21 - ((20 * winheight(0) + 19) / 38)
+let s:l = 23 - ((22 * winheight(0) + 19) / 38)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-21
+23
 normal! 0
+lcd ~/
 let &so = s:so_save | let &siso = s:siso_save
 doautoall SessionLoadPost
 " vim: set ft=vim :

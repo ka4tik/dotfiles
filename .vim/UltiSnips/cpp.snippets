@@ -1,3 +1,90 @@
+snippet unique "Removes Duplicates From vector" !b
+v.erase(unique(v.begin(),v.end()),v.end());
+endsnippet
+snippet gauss "Gaussian Elimination" !b
+#define EPS 1e-9
+double matrix[MAXN][MAXN];
+double b[MAXN];
+double ans[MAXN];
+int N,M;
+int gauss(){
+
+    vector<int> where(M,-1);
+    for(int col=0,row=0;row<N&&col<M;col++)
+    {
+        int sel=row;
+        for(int i=row;i<N;i++)
+        {
+            if(abs(matrix[i][col])>abs(matrix[sel][col]))
+                sel=i;
+        }
+        if(abs(matrix[sel][col])<EPS)
+            continue;
+
+        for(int i=col;i<M;i++)
+            swap(matrix[sel][i],matrix[row][i]);
+        swap(b[sel],b[row]);
+
+        where[col]=row;
+
+        for(int i=0;i<N;i++)
+        {
+            if(i!=row)
+            {
+                double ratio=matrix[i][col]/matrix[row][col];
+                for(int j=col;j<M;j++)
+                    matrix[i][j]-=ratio*matrix[row][j];
+                b[i]-=ratio*b[row];
+            }
+        }
+        row++;
+    }
+
+    for(int i=0;i<M;i++)
+    {
+        if(where[i]!=-1)
+            ans[i]=b[where[i]]/matrix[where[i]][i];
+    }
+
+    for(int i=0;i<N;i++)
+    {
+        double sum=0;
+        for(int j=0;j<M;j++)
+            sum+=ans[j]*matrix[i][j];
+        if(abs(sum-b[i])>EPS)
+            return 0;
+    }
+
+    for(int i=0;i<M;i++)
+    {
+        if(where[i]==-1)
+            return INT_MAX;
+    }
+    return 1;
+}
+endsnippet
+snippet lcp "Longest Common Prefix-Suffix" !b
+int lcp[MAXN];
+void compute_lcp()
+{
+    lcp[0]=0;
+    for(int i=1;i<N;i++)
+    {
+        if(str[i]==str[lcp[i-1]])
+            lcp[i]=lcp[i-1]+1;
+        else
+        {
+            int j=i-1;
+            while(j>0&&str[i]!=str[lcp[j]])
+                j=lcp[j]-1;
+            if(str[i]==str[lcp[j]])
+                lcp[i]=lcp[j]+1;
+            else
+                lcp[i]=0;
+        }
+    }
+}
+endsnippet
 snippet gentree  "Genrate Random Tree" !b
 #define ii pair<int,int>
 struct DisjointSet {

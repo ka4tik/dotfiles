@@ -26,13 +26,13 @@ setlocal nobinary
 setlocal bufhidden=
 setlocal buflisted
 setlocal buftype=
-setlocal nocindent
+setlocal cindent
 setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
 setlocal cinoptions=
 setlocal cinwords=if,else,while,do,for,switch
 setlocal colorcolumn=
-setlocal comments=s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,fb:-
-setlocal commentstring=#%s
+setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
+setlocal commentstring=/*%s*/
 setlocal complete=.,w,b,u,t,i
 setlocal concealcursor=
 setlocal conceallevel=0
@@ -47,22 +47,22 @@ setlocal dictionary=
 setlocal nodiff
 setlocal equalprg=
 setlocal errorformat=
-setlocal noexpandtab
-if &filetype != 'snippets'
-setlocal filetype=snippets
+setlocal expandtab
+if &filetype != 'cpp'
+setlocal filetype=cpp
 endif
 setlocal foldcolumn=0
 setlocal foldenable
 setlocal foldexpr=0
 setlocal foldignore=#
-setlocal foldlevel=99
+setlocal foldlevel=0
 setlocal foldmarker={{{,}}}
-setlocal foldmethod=syntax
+setlocal foldmethod=manual
 setlocal foldminlines=1
 setlocal foldnestmax=20
 setlocal foldtext=foldtext()
 setlocal formatexpr=
-setlocal formatoptions=tcq
+setlocal formatoptions=croql
 setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
 setlocal grepprg=
 setlocal iminsert=2
@@ -84,7 +84,7 @@ setlocal modifiable
 setlocal nrformats=octal,hex
 setlocal number
 setlocal numberwidth=4
-setlocal omnifunc=
+setlocal omnifunc=ccomplete#Complete
 setlocal path=
 setlocal nopreserveindent
 setlocal nopreviewwindow
@@ -102,12 +102,12 @@ setlocal nospell
 setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
 setlocal spellfile=
 setlocal spelllang=en
-setlocal statusline=%!Pl#Statusline(0,0)
+setlocal statusline=%!Pl#Statusline(0,1)
 setlocal suffixesadd=
 setlocal swapfile
 setlocal synmaxcol=3000
-if &syntax != 'snippets'
-setlocal syntax=snippets
+if &syntax != 'cpp'
+setlocal syntax=cpp
 endif
 setlocal tabstop=4
 setlocal tags=
@@ -118,99 +118,12 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-1
-normal zo
-4
-normal zo
-66
-normal zo
-88
-normal zo
-167
-normal zo
-198
-normal zo
-235
-normal zc
-267
-normal zc
-311
-normal zc
-317
-normal zo
-322
-normal zo
-341
-normal zo
-344
-normal zc
-372
-normal zc
-419
-normal zc
-425
-normal zc
-431
-normal zc
-437
-normal zc
-448
-normal zc
-618
-normal zc
-621
-normal zc
-651
-normal zo
-727
-normal zc
-737
-normal zc
-762
-normal zc
-777
-normal zc
-789
-normal zc
-793
-normal zc
-815
-normal zc
-830
-normal zc
-833
-normal zc
-836
-normal zc
-842
-normal zc
-853
-normal zc
-857
-normal zc
-861
-normal zc
-870
-normal zc
-878
-normal zc
-881
-normal zo
-884
-normal zc
-887
-normal zc
-890
-normal zc
-909
-normal zc
-997
-normal zo
-let s:l = 1351 - ((38 * winheight(0) + 19) / 39)
+silent! normal! zE
+let s:l = 51 - ((38 * winheight(0) + 19) / 39)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1351
+51
 normal! 0
 lcd ~/
 let &so = s:so_save | let &siso = s:siso_save

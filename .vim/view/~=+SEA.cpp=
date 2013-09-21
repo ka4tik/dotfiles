@@ -34,7 +34,7 @@ if &filetype != 'cpp'
 setlocal filetype=cpp
 endif
 setlocal foldcolumn=0
-setlocal nofoldenable
+setlocal foldenable
 setlocal foldexpr=0
 setlocal foldignore=#
 setlocal foldlevel=0
@@ -104,42 +104,19 @@ silent! normal! zE
 6,10fold
 11,28fold
 11,103fold
-423,551fold
-423,552fold
-423,557fold
-423,557fold
-423,557fold
 6
 normal zc
 11
 normal zo
 11
-normal zo
+normal zc
 11
-normal zc
-423
 normal zo
-423
-normal zo
-423
-normal zo
-423
-normal zo
-423
-normal zo
-423
-normal zo
-423
-normal zc
-423
-normal zo
-423
-normal zo
-let s:l = 18 - ((16 * winheight(0) + 19) / 39)
+let s:l = 29 - ((28 * winheight(0) + 21) / 42)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-18
+29
 normal! 0
 lcd ~/
 let &so = s:so_save | let &siso = s:siso_save

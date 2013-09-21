@@ -84,7 +84,7 @@ setlocal nospell
 setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
 setlocal spellfile=
 setlocal spelllang=en
-setlocal statusline=%!Pl#Statusline(0,0)
+setlocal statusline=%!Pl#Statusline(0,1)
 setlocal suffixesadd=
 setlocal swapfile
 setlocal synmaxcol=3000
