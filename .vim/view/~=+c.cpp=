@@ -2,6 +2,7 @@ let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
 argglobal
 let s:cpo_save=&cpo
 set cpo&vim
+<<<<<<< HEAD
 nmap <buffer> '] <Plug>SIG_NextLineByAlpha
 nmap <buffer> '[ <Plug>SIG_PrevLineByAlpha
 nmap <buffer> [' <Plug>SIG_PrevLineByPos
@@ -16,11 +17,31 @@ nnoremap <buffer> <silent> m :call signature#Input()
 nmap <buffer> m, <Plug>SIG_PlaceNextMark
 nmap <buffer> m  <Plug>SIG_PurgeMarks
 nmap <buffer> m<BS> <Plug>SIG_PurgeMarkers
+=======
+nmap <buffer> '[ <Plug>SIG_PrevLineByAlpha
+nmap <buffer> '] <Plug>SIG_NextLineByAlpha
+nmap <buffer> [- <Plug>SIG_PrevMarkerByType
+nmap <buffer> [` <Plug>SIG_PrevSpotByPos
+nmap <buffer> [' <Plug>SIG_PrevLineByPos
+nmap <buffer> ]- <Plug>SIG_NextMarkerByType
+nmap <buffer> ]` <Plug>SIG_NextSpotByPos
+nmap <buffer> ]' <Plug>SIG_NextLineByPos
+nmap <buffer> `[ <Plug>SIG_PrevSpotByAlpha
+nmap <buffer> `] <Plug>SIG_NextSpotByAlpha
+nmap <buffer> m<BS> <Plug>SIG_PurgeMarkers
+nmap <buffer> m  <Plug>SIG_PurgeMarks
+nmap <buffer> m, <Plug>SIG_PlaceNextMark
+nnoremap <buffer> <silent> m :call signature#Input()
+>>>>>>> f88715534cc0c801baad99da374afeadef91998f
 let &cpo=s:cpo_save
 unlet s:cpo_save
 setlocal keymap=
 setlocal noarabic
 setlocal autoindent
+<<<<<<< HEAD
+=======
+setlocal balloonexpr=
+>>>>>>> f88715534cc0c801baad99da374afeadef91998f
 setlocal nobinary
 setlocal bufhidden=
 setlocal buflisted
@@ -64,8 +85,13 @@ setlocal formatexpr=
 setlocal formatoptions=tcq
 setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
 setlocal grepprg=
+<<<<<<< HEAD
 setlocal iminsert=0
 setlocal imsearch=0
+=======
+setlocal iminsert=2
+setlocal imsearch=2
+>>>>>>> f88715534cc0c801baad99da374afeadef91998f
 setlocal include=
 setlocal includeexpr=
 setlocal indentexpr=
@@ -118,11 +144,19 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
+<<<<<<< HEAD
 let s:l = 1 - ((0 * winheight(0) + 11) / 23)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 1
+=======
+let s:l = 7 - ((6 * winheight(0) + 19) / 39)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+7
+>>>>>>> f88715534cc0c801baad99da374afeadef91998f
 normal! 0
 lcd ~/
 let &so = s:so_save | let &siso = s:siso_save

@@ -6,7 +6,7 @@
 
  " let Vundle manage Vundle
  " required! 
- Bundle 'gmarik/vundle'
+Bundle 'gmarik/vundle'
 
  " My Bundles here:
  "
@@ -27,6 +27,10 @@ Bundle 'tpope/vim-surround'
 Bundle 'vim-scripts/matchit.zip'
 Bundle 'tomasr/molokai'
 Bundle 'vim-scripts/mru.vim'
+Bundle 'chriskempson/tomorrow-theme'
+Bundle 'kshenoy/vim-signature'
+Bundle 'mhinz/vim-startify'
+"Bundle 'Rip-Rip/clang_complete'
 "Bundle 'vim-scripts/Conque-Shell'
 "Bundle 'HackerEarth/hackerearth.vim'
 "bundle 'mattn/webapi-vim'
@@ -88,12 +92,17 @@ set tabstop=4 " tab width is 4 spaces
 set shiftwidth=4 " indent also with 4 spaces
 set expandtab " expand tabs to spaces
 
-set foldmethod=marker
+"set foldmethod=marker
+set foldmethod=manual
 set number
 set backspace=indent,eol,start
 
 " Remember cursor position
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+
+" Remember folds 
+au BufWinLeave * mkview
+au BufWinEnter * silent loadview
 
 let g:HackerEarthApiClientKey = "d11dcf4e7dc530bbd785e0400313b65583b31de7"
 
