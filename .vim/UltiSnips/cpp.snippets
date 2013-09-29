@@ -1,4 +1,144 @@
-<<<<<<< HEAD
+snippet scc "Strongly Connected Components Kosaraju Algorithm" !b
+vector<int> g[MAXN],gr[MAXN];
+vector<int> visit(MAXN,0);
+vector<int> order;
+vector<int> component(MAXN);
+int N;
+void dfs_order(int u)
+{
+    visit[u]=1;
+    for(int i=0;i<g[u].size();i++)
+    {
+        int v=g[u][i];
+        if(!visit[v])
+            dfs_order(v);
+    }
+    order.push_back(u);
+}
+void dfs(int u,int c)
+{
+    visit[u]=1;
+    component[u]=c;
+    for(int i=0;i<gr[u].size();i++)
+    {
+        int v=gr[u][i];
+        if(!visit[v])
+            dfs(v,c);
+    }
+}
+int scc()
+{
+    for(int i=0;i<N;i++)
+        visit[i]=0;
+    order.clear();
+    for(int i=0;i<N;i++)
+    {
+        if(!visit[i])
+            dfs_order(i);
+    }
+
+    reverse(order.begin(),order.end());
+    int c=0;
+    for(int i=0;i<N;i++)
+        visit[i]=0;
+
+    for(int i=0;i<n;i++)
+    {
+        int v=order[i];
+        if(!visit[v])
+        {
+            dfs(v,c);
+            c++;
+        }
+    }
+    return c;
+}
+
+endsnippet
+snippet toposort "Topological Sort in lexographic order" !b
+#define MAXN 1111111
+vector<int> g[MAXN];
+set<int> next;
+vector<int> ans;
+vector<int> indegree(MAXN);
+int N;
+void toposort()
+{
+    ans.clear();
+    for(int i=0;i<N;i++)
+    {
+        for(int j=0;j<g[i].size();j++)
+        {
+            indegree[g[i][j]]++;
+        }
+    }
+    for(int i=0;i<N;i++)
+    {
+        if(indegree[i]==0)
+            next.insert(i);
+    }
+    while(!next.empty())
+    {
+        int u=*next.begin();
+        next.erase(next.begin());
+        ans.push_back(u);
+        for(int i=0;i<g[u].size();i++)
+        {
+            int v=g[u][i];
+            indegree[v]--;
+            if(!indegree[v]) next.insert(v);
+        }
+    }
+
+}
+endsnippet
+snippet topodfs "Topological Sort using dfs" !b
+vector<int> g[MAXN];
+vector<int> visit(MAXN,0);
+vector<int> ans;
+int N;
+void dfs(int u)
+{
+    visit[u]=1;
+    for(int i=0;i<g[u].size();i++)
+    {
+        int v=g[u][i];
+        if(!visit[v])
+            dfs(v);
+    }
+    ans.push_back(u);
+}
+void toposort()
+{
+    for(int i=0;i<N;i++)
+        visit[i]=0;
+    ans.clear();
+    for(int i=0;i<N;i++)
+    {
+        if(!visit[i])
+            dfs(i);
+    }
+    reverse(ans.begin(),ans.end());
+}
+endsnippet
+snippet dfs "Depth First Search" !b
+vector<int> g[MAXN];
+vector<int> intime(MAXN),outtime(MAXN);
+vector<int> visit(MAXN,0);
+int dfs_timer=0;
+void dfs(int u)
+{
+    intime[u]=dfs_timer++;
+    visit[u]=1;
+    for(int i=0;i<g[u].size();i++)
+    {
+        int v=g[u][i];
+        if(!visit[v])
+            dfs(v);
+    }
+    outtime[u]=dfs_timer++;
+}
+endsnippet
 snippet totient "Totinet Sieve" !b
     for(int i=1;i<MAXN;i++)
         totient[i]=i;
@@ -32,9 +172,8 @@ vector<int> get_nth(int n,int k)
     return ans;
 }
 endsnippet
-=======
->>>>>>> f88715534cc0c801baad99da374afeadef91998f
 snippet unique "Removes Duplicates From vector" !b
+sort(v.begin(),v.end());
 v.erase(unique(v.begin(),v.end()),v.end());
 endsnippet
 snippet gauss "Gaussian Elimination" !b
@@ -684,7 +823,7 @@ while(q.size()>0)
 
 }
 endsnippet
-snippet segtree "Segment Tre" !b
+snippet segtree "Segment Tree" !b
 #define MAXN 111111
 int tree[4*MAXN];
 int lazy[4*MAXN];
@@ -1385,4 +1524,3 @@ struct bigint {
     }
 };
 endsnippet
-sss

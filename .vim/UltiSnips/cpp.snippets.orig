@@ -1,19 +1,377 @@
 <<<<<<< HEAD
-snippet iarray "input an array" !b
-for(int i=0;i<N;i++)
+snippet totient "Totinet Sieve" !b
+    for(int i=1;i<MAXN;i++)
+        totient[i]=i;
+
+    for(int i=2;i<MAXN;i++)
+    {
+        if(totient[i]==i){// is prime
+            totient[i]=i-1;
+            for(int j=(2*i);j<MAXN;j+=i)
+            {
+                totient[j]=(totient[j])/i*(i-1);
+            }
+        }
+    }
+endsnippet
+snippet nperm "k_th permutation of n numbers" !b
+vector<int> get_nth(int n,int k)
 {
-	s(v[i]);
+    if(n==1)
+        return vector<int>(1,0);
+
+    int first_digit=k/factorial[n-1];
+    vector<int> ans(1,first_digit);
+    vector<int> rest=get_nth(n-1,k%factorial[n-1]);
+    for(int i=0;i<rest.size();i++)
+    {
+        if(rest[i]>=first_digit)
+            rest[i]++;
+        ans.push_back(rest[i]);
+    }
+    return ans;
 }
 endsnippet
-snippet igrid "input a Matrix" !b
-scanf("%d %d",&N,&M);
-for(int i=0;i<N;i++)
+=======
+>>>>>>> f88715534cc0c801baad99da374afeadef91998f
+snippet unique "Removes Duplicates From vector" !b
+v.erase(unique(v.begin(),v.end()),v.end());
+endsnippet
+snippet gauss "Gaussian Elimination" !b
+#define EPS 1e-9
+double matrix[MAXN][MAXN];
+double b[MAXN];
+double ans[MAXN];
+int N,M;
+int gauss(){
+
+    vector<int> where(M,-1);
+    for(int col=0,row=0;row<N&&col<M;col++)
+    {
+        int sel=row;
+        for(int i=row;i<N;i++)
+        {
+            if(abs(matrix[i][col])>abs(matrix[sel][col]))
+                sel=i;
+        }
+        if(abs(matrix[sel][col])<EPS)
+            continue;
+
+        for(int i=col;i<M;i++)
+            swap(matrix[sel][i],matrix[row][i]);
+        swap(b[sel],b[row]);
+
+        where[col]=row;
+
+        for(int i=0;i<N;i++)
+        {
+            if(i!=row)
+            {
+                double ratio=matrix[i][col]/matrix[row][col];
+                for(int j=col;j<M;j++)
+                    matrix[i][j]-=ratio*matrix[row][j];
+                b[i]-=ratio*b[row];
+            }
+        }
+        row++;
+    }
+
+    for(int i=0;i<M;i++)
+    {
+        if(where[i]!=-1)
+            ans[i]=b[where[i]]/matrix[where[i]][i];
+    }
+
+    for(int i=0;i<N;i++)
+    {
+        double sum=0;
+        for(int j=0;j<M;j++)
+            sum+=ans[j]*matrix[i][j];
+        if(abs(sum-b[i])>EPS)
+            return 0;
+    }
+
+    for(int i=0;i<M;i++)
+    {
+        if(where[i]==-1)
+            return INT_MAX;
+    }
+    return 1;
+}
+endsnippet
+snippet lcp "Longest Common Prefix-Suffix" !b
+int lcp[MAXN];
+void compute_lcp()
 {
-	scanf("%s",temp);
-	for(int j=0;j<M;j++)
-	{
-		grid[i][j]=temp[j];
-	}
+    lcp[0]=0;
+    for(int i=1;i<N;i++)
+    {
+        if(str[i]==str[lcp[i-1]])
+            lcp[i]=lcp[i-1]+1;
+        else
+        {
+            int j=i-1;
+            while(j>0&&str[i]!=str[lcp[j]])
+                j=lcp[j]-1;
+            if(str[i]==str[lcp[j]])
+                lcp[i]=lcp[j]+1;
+            else
+                lcp[i]=0;
+        }
+    }
+}
+endsnippet
+snippet gentree  "Genrate Random Tree" !b
+#define ii pair<int,int>
+struct DisjointSet {
+    int *root, *rank, n;
+    DisjointSet(int sz) {
+        root = new int[sz+1];
+        rank = new int[sz+1];
+        n = sz;
+    }
+    ~DisjointSet() {
+        delete[] root;
+        delete[] rank;
+    }
+    void init() {
+        for(int i = 1; i <= n; i++) {
+            root[i] = i;
+            rank[i] = 0;
+        }
+    }
+    int find(int u) {
+        if(u != root[u]) root[u] = find(root[u]);
+        return root[u];
+    }
+    void merge(int u, int v) {
+        int pu = find(u);
+        int pv = find(v);
+        if(rank[pu] > rank[pv]) root[pv] = pu;
+        else root[pu] = pv;
+        if(rank[pu]==rank[pv]) rank[pv]++;
+    }
+};
+void gentree()
+{
+    ofstream file;
+    file.open("in");
+    int n=5;
+    DisjointSet ds(n);
+    ds.init();
+    int q;
+    q=5;
+    file<<n<<" "<<q<<endl;
+    vector<ii> edges;
+    while(edges.size()<n-1)
+    {
+        int a=(rand()%n)+1;
+        int b=(rand()%n)+1;
+        if(a==b) continue;
+        if(ds.find(a)!=ds.find(b))
+        {
+            if(find(edges.begin(),edges.end(),ii(a,b))==edges.end()&&
+                    find(edges.begin(),edges.end(),ii(b,a))==edges.end()    )
+            {
+                ds.merge(a,b);
+                edges.push_back(ii(a,b));
+            }
+        }
+    }
+    for(int i=0;i<n;i++)
+    {
+        file<<rand()%10<<" ";
+    }
+    file<<endl;
+    for(int i=0;i<edges.size();i++)
+    {
+        file<<edges[i].first<< " "<<edges[i].second<<endl;
+    }
+    //file<<endl;
+    for(int i=0;i<q;i++)
+    {
+        if(rand()&1)
+        {
+            file<<"U "<<(rand()%n)+1<<" "<<(rand()%n)+1<<endl;
+        }
+        else
+            file<<"Q "<<(rand()%n)+1<<endl;
+    }
+    file.close();
+}
+endsnippet
+snippet dset "Union-Find DS" !b
+struct disjointset {
+    int *root, *rank, n;
+    disjointset(int sz) {
+        root = new int[sz+1];
+        rank = new int[sz+1];
+        n = sz;
+    }
+    ~DisjointSet() {
+        delete[] root;
+        delete[] rank;
+    }
+    void init() {
+        for(int i = 1; i <= n; i++) {
+            root[i] = i;
+            rank[i] = 0;
+        }
+    }
+    int find(int u) {
+        if(u != root[u]) root[u] = find(root[u]);
+        return root[u];
+    }
+    void merge(int u, int v) {
+        int pu = find(u);
+        int pv = find(v);
+        if(rank[pu] > rank[pv]) root[pv] = pu;
+        else root[pu] = pv;
+        if(rank[pu]==rank[pv]) rank[pv]++;
+    }
+};
+endsnippet
+snippet invcount "inversion count" !b
+vector<int> temp(maxn);
+long long merge(vector<int> &v,int start,int end)
+{
+    long long ans=0;
+    if(start<end)
+    {
+        int mid=start+(end-start)/2;
+        ans+=merge(v,start,mid);
+        ans+=merge(v,mid+1,end);
+        int i=start,j=mid+1,k;
+
+        for(k=0;i<=mid&&j<=end;k++)
+        {
+            if(v[i]<=v[j])
+            {
+                temp[k]=v[i];
+                i++;
+            }
+            else
+            {
+                ans+=(mid-i+1);
+                temp[k]=v[j],j++;
+            }
+        }
+        for(;i<=mid;i++)
+            temp[k++]=v[i];
+        for(;j<=end;j++)
+            temp[k++]=v[j];
+
+        for(int i=start;i<=end;i++)
+            v[i]=temp[i-start];
+    }
+    return ans;
+
+}
+endsnippet
+snippet merge "Merge Sort" !b
+vector<int> temp(MAXN);
+int merge(vector<int> &v,int start,int end)
+{
+    if(start<end)
+    {
+        int mid=start+(end-start)/2;
+        merge(v,start,mid);
+        merge(v,mid+1,end);
+        int i=start,j=mid+1,k;
+
+        for(k=0;i<=mid&&j<=end;k++)
+        {
+            if(v[i]<v[j])
+            {
+                temp[k]=v[i];
+                i++;
+            }
+            else
+                temp[k]=v[j],j++;
+        }
+        for(;i<=mid;i++)
+            temp[k++]=v[i];
+        for(;j<=end;j++)
+            temp[k++]=v[j];
+
+        for(int i=start;i<=end;i++)
+            v[i]=temp[i-start];
+    }
+
+}
+endsnippet
+snippet bs "Differnt Binary Search algos" !b
+int leftpos(vector<int> &v,int key)
+{
+    int r=v.size()-1;
+    int l=0;
+    while(l<r)
+    {
+        int m=l+(r-l)/2;
+        if(v[m]>=key)
+            r=m;
+        else
+            l=m+1;
+    }
+    if(v[r]==key)
+        return r;
+    else
+        return -1;
+}
+int rightpos(vector<int> &v,int key)
+{
+    int r=v.size()-1;
+    int l=0;
+    while(l<r)
+    {
+        int m=r-(r-l)/2;
+        if(v[m]<=key)
+            l=m;
+        else
+            r=m-1;
+    }
+    if(v[l]==key)
+        return l;
+    else
+        return -1;
+}
+int countequal(vector<int> &v,int key)
+{
+    int r=rightpos(v,key);
+    int l=leftpos(v,key);
+    if(r==-1||l==-1) return 0;
+    else
+        return r-l+1;
+}
+endsnippet
+snippet randdouble "Description" !b
+double randdouble()
+{
+    return double(rand())/double(RAND_MAX);
+}
+endsnippet
+snippet db "Debug Macros" !b
+#define db(x) cout<<#x<<" : "<<x<<endl;
+#define db2(x,y) cout<<#x<<" : "<<x<<" "<<#y<<" : "<<y<<endl;
+#define db3(x,y,z) cout<<#x<<" : "<<x<<" "<<#y<<" : "<<y<<" "<<#z<<" : "<<z<<endl;
+endsnippet
+snippet modmul "Eutopian Multiplication" !b
+long long modmul(long long n,long long p)
+{
+    long long ret=1;
+    while(p)
+    {
+        if(p&1){
+            ret=ret+n;
+            if(ret>=mod) ret%=mod;
+        }
+
+        p=p>>1;
+        n=(n<<1);
+        if(n>=mod)
+            n%=mod;
+    }
+    return ret;
 }
 endsnippet
 snippet isvalid "Description" !b
@@ -48,50 +406,50 @@ while(!q.empty())
 }
 endsnippet
 snippet miller "Miller rabin Primility Test" !b
-LL mulmod(LL a, LL b, LL c)
+ll mulmod(ll a, ll b, ll c)
 {
-	LL x = 0, y = a%c;
-	while(b>0)
-	{
-		if(b&1) x = (x+y)%c;
-		y = (y<<1)%c;
-		b = b>>1;
-	}
-	return x;
+    ll x = 0, y = a%c;
+    while(b>0)
+    {
+        if(b&1) x = (x+y)%c;
+        y = (y<<1)%c;
+        b = b>>1;
+    }
+    return x;
 }
  
-LL modulo(LL a, LL b, LL c)
+ll modulo(ll a, ll b, ll c)
 {
-	LL x = 1, y = a%c;
-	while(b>0)
-	{
-		if(b&1) x = mulmod(x,y,c);
-		y = mulmod(y,y,c);
-		b = b>>1;
-	}
-	return x;
+    ll x = 1, y = a%c;
+    while(b>0)
+    {
+        if(b&1) x = mulmod(x,y,c);
+        y = mulmod(y,y,c);
+        b = b>>1;
+    }
+    return x;
 }
  
-bool isprime(LL p, int iter)
+bool isprime(ll p, int iter)
 {
-	if(p<2) return false;
-	if(p==2) return true;
-	if(!(p&1)) return false;
-	LL s = p-1, a, temp, mod;
-	while(!(s&1)) s = s>>1;
-	for(int i=0; i<iter; i++)
-	{
-		a = rand()%(p-1)+1;
-		temp = s;
-		mod = modulo(a, temp, p);
-		while(temp!=p-1 && mod!=1 && mod!=p-1)
-		{
-			mod = mulmod(mod, mod, p);
-			temp = temp<<1;
-		}
-		if(mod!=p-1 && !(temp&1)) return false;
-	}
-	return true;
+    if(p<2) return false;
+    if(p==2) return true;
+    if(!(p&1)) return false;
+    ll s = p-1, a, temp, mod;
+    while(!(s&1)) s = s>>1;
+    for(int i=0; i<iter; i++)
+    {
+        a = rand()%(p-1)+1;
+        temp = s;
+        mod = modulo(a, temp, p);
+        while(temp!=p-1 && mod!=1 && mod!=p-1)
+        {
+            mod = mulmod(mod, mod, p);
+            temp = temp<<1;
+        }
+        if(mod!=p-1 && !(temp&1)) return false;
+    }
+    return true;
 }
 endsnippet
 snippet for "Description" !b
@@ -107,7 +465,7 @@ for(int i=N-1;i>=0;i--)
 }
 endsnippet
 snippet test "Description" !b
-int T;s(T);
+int T;scanf("%d",&T);
 while(T--)
 {
 
@@ -123,7 +481,6 @@ vector<string> split(std::string const &input) {
     return ret;
 }
 endsnippet
-=======
 snippet point "point libary" !b
 const double PI = acos(-1.0);
 const double EPS = 1E-8;
@@ -294,40 +651,38 @@ double Area(vector<Point> &v)
 	return abs(area/2);
 }
 endsnippet
-
->>>>>>> 3a24ba1a2fad09e17df5a9368e70858f488b9b39
 snippet iii "iii" !b
 #define iii pair< int,pair<int,int> >
 endsnippet
 snippet dj "Dijstras" !b
-        multiset<ii> q;
+multiset<ii> q;
 
-        q.insert(ii(0,N));
-        vector<int> d(N+2,INT_MAX);
-        vector<int> visit(N+2,0);
-        d[N]=0;
+q.insert(ii(0,N));
+vector<int> d(N+2,INT_MAX);
+vector<int> visit(N+2,0);
+d[N]=0;
 
-        while(q.size()>0)
-        {
-            ii c=*q.begin();
-            q.erase(q.begin());
-            if(c.second==N+1)
-                break;
-            if(visit[c.second]) continue;
-            visit[c.second]=1;
+while(q.size()>0)
+{
+	ii c=*q.begin();
+	q.erase(q.begin());
+	if(c.second==N+1)
+		break;
+	if(visit[c.second]) continue;
+	visit[c.second]=1;
 
-            for(int i=0;i<N+2;i++)
-            {
-                if(visit[i]) continue;
-                if(d[i]>c.first+dist(i,c.second))
-                {
-                    d[i]=c.first+dist(i,c.second);
-                    q.insert(ii(d[i],i));
-                }
+	for(int i=0;i<N+2;i++)
+	{
+		if(visit[i]) continue;
+		if(d[i]>c.first+dist(i,c.second))
+		{
+			d[i]=c.first+dist(i,c.second);
+			q.insert(ii(d[i],i));
+		}
 
-            }
+	}
 
-        }
+}
 endsnippet
 snippet segtree "Segment Tre" !b
 #define MAXN 111111
@@ -405,20 +760,40 @@ int query(int node,int start,int end,int p,int q)
 
 }
 endsnippet
+snippet sieveip "sieve is prime " !b
+bool isprime(int n)
+{
+	if(n<2) return 0;
+	if(n==2) return 1;
+	if(!(n&1)) return 0;
+	else
+		return !mark[n>>1];
+}
+endsnippet
 snippet sieve "sieve" !b
-    vector<int> primes;
-    primes.push_back(2);
-    for(int i=3;i<MAXN;i+=2)
-    {
-        if(!mark[i])
-        {
-            primes.push_back(i);
-            for(int j=2*i;j<MAXN;j+=i)
-            {
-                mark[j]=1;
-            }
-        }
-    }
+vector<bool> mark(MAXN>>1);
+vector<int> primes;
+primes.push_back(2);
+int i;
+for(i=3;i*i<MAXN;i+=2)
+{
+	if(!mark[i>>1])
+	{
+		for(int j=i*i;j<MAXN;j+=2*i)
+		{
+			mark[j>>1]=1;	
+		}
+		primes.push_back(i);
+	}
+
+}
+for(;i<MAXN;i+=2)
+{
+	if(!mark[i>>1])
+	{
+		primes.push_back(i);
+	}
+}
 endsnippet
 snippet factorize "factorize" !b
 vector<int> factorize(int x)
@@ -482,9 +857,33 @@ void gentests()
     file<<n<<endl;
     while(n--)
     {
-        file<<(rand()%10) + 1<<" " ;
+        file<<(rand()%10)+1<<" " ;
     }
+	file.close();
     file<<endl;
+}
+endsnippet
+snippet pll "description" !b
+printf("%lld\n",$1);
+endsnippet
+snippet p "Description" !b
+printf("%d\n",$1);
+endsnippet
+snippet iarray "input an array" !b
+for(int i=0;i<N;i++)
+{
+	s(v[i]);
+}
+endsnippet
+snippet igrid "input a Matrix" !b
+scanf("%d %d",&N,&M);
+for(int i=0;i<N;i++)
+{
+	scanf("%s",temp);
+	for(int j=0;j<M;j++)
+	{
+		grid[i][j]=temp[j];
+	}
 }
 endsnippet
 snippet dir2 "directions2 " !b
@@ -542,6 +941,94 @@ long long modpow(long long n,long long p)
     }
     return ret;
 }
+endsnippet
+snippet fastio "fast i/o class" !b
+static struct io {
+        char tmp[1 << 10];
+ 
+        // fast input routines
+        char cur;
+ 
+//#define nextChar() (cur = getc_unlocked(stdin))
+//#define peekChar() (cur)
+        inline char nextChar() { return cur = getc_unlocked(stdin); }
+        inline char peekChar() { return cur; }
+ 
+        inline operator bool() { return peekChar(); }
+        inline static bool isBlank(char c) { return (c < '-' && c); }
+        inline bool skipBlanks() { while (isBlank(nextChar())); return peekChar() != 0; }
+ 
+        inline IO& operator >> (char & c) { c = nextChar(); return *this; }
+ 
+        inline IO& operator >> (char * buf) {
+                if (skipBlanks()) {
+                        if (peekChar()) {
+                                *(buf++) = peekChar();
+                                while (!isBlank(nextChar())) *(buf++) = peekChar();
+                        } *(buf++) = 0; } return *this; }
+ 
+        inline IO& operator >> (string & s) {
+                if (skipBlanks()) {     s.clear(); s += peekChar();
+                        while (!isBlank(nextChar())) s += peekChar(); }
+                return *this; }
+ 
+        inline IO& operator >> (double & d) { if ((*this) >> tmp) sscanf(tmp, "%lf", &d); return *this; }
+ 
+#define defineInFor(intType) \
+        inline IO& operator >>(intType & n) { \
+                if (skipBlanks()) { \
+                        int sign = +1; \
+                        if (peekChar() == '-') { \
+                                sign = -1; \
+                                n = nextChar() - '0'; \
+                        } else \
+                                n = peekChar() - '0'; \
+                        while (!isBlank(nextChar())) { \
+                                n += n + (n << 3) + peekChar() - 48; \
+                        } \
+                        n *= sign; \
+                } \
+                return *this; \
+        }
+ 
+defineInFor(int)
+defineInFor(unsigned int)
+defineInFor(long long)
+ 
+        // fast output routines
+ 
+//#define putChar(c) putc_unlocked((c), stdout)
+        inline void putChar(char c) { putc_unlocked(c, stdout); }
+        inline IO& operator << (char c) { putChar(c); return *this; }
+        inline IO& operator << (const char * s) { while (*s) putChar(*s++); return *this; }
+ 
+        inline IO& operator << (const string & s) { for (int i = 0; i < (int)s.size(); ++i) putChar(s[i]); return *this; }
+ 
+        char * toString(double d) { sprintf(tmp, "%lf%c", d, '\0'); return tmp; }
+        inline IO& operator << (double d) { return (*this) << toString(d); }
+ 
+ 
+#define defineOutFor(intType) \
+        inline char * toString(intType n) { \
+                char * p = (tmp + 30); \
+                if (n) { \
+                        bool isNeg = 0; \
+                        if (n < 0) isNeg = 1, n = -n; \
+                        while (n) \
+                                *--p = (n % 10) + '0', n /= 10; \
+                        if (isNeg) *--p = '-'; \
+                } else *--p = '0'; \
+                return p; \
+        } \
+        inline IO& operator << (intType n) { return (*this) << toString(n); }
+ 
+defineOutFor(int)
+defineOutFor(long long)
+ 
+#define endl ('\n')
+#define cout __io__
+#define cin __io__
+} __io__;
 endsnippet
 snippet bigint "bigint libary" !b
 const int base = 1000000000;
@@ -898,3 +1385,4 @@ struct bigint {
     }
 };
 endsnippet
+sss

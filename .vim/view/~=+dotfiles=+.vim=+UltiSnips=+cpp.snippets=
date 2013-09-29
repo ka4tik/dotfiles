@@ -21,7 +21,6 @@ unlet s:cpo_save
 setlocal keymap=
 setlocal noarabic
 setlocal autoindent
-setlocal balloonexpr=
 setlocal nobinary
 setlocal bufhidden=
 setlocal buflisted
@@ -39,25 +38,25 @@ setlocal conceallevel=0
 setlocal completefunc=
 setlocal nocopyindent
 setlocal cryptmethod=
-setlocal nocursorbind
+setlocal cursorbind
 setlocal nocursorcolumn
 setlocal nocursorline
 setlocal define=
 setlocal dictionary=
-setlocal nodiff
+setlocal diff
 setlocal equalprg=
 setlocal errorformat=
 setlocal noexpandtab
 if &filetype != 'snippets'
 setlocal filetype=snippets
 endif
-setlocal foldcolumn=0
+setlocal foldcolumn=2
 setlocal foldenable
 setlocal foldexpr=0
 setlocal foldignore=#
-setlocal foldlevel=99
+setlocal foldlevel=0
 setlocal foldmarker={{{,}}}
-setlocal foldmethod=syntax
+setlocal foldmethod=diff
 setlocal foldminlines=1
 setlocal foldnestmax=20
 setlocal foldtext=foldtext()
@@ -65,8 +64,8 @@ setlocal formatexpr=
 setlocal formatoptions=tcq
 setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
 setlocal grepprg=
-setlocal iminsert=2
-setlocal imsearch=2
+setlocal iminsert=0
+setlocal imsearch=0
 setlocal include=
 setlocal includeexpr=
 setlocal indentexpr=
@@ -93,7 +92,7 @@ setlocal noreadonly
 setlocal norelativenumber
 setlocal norightleft
 setlocal rightleftcmd=search
-setlocal noscrollbind
+setlocal scrollbind
 setlocal shiftwidth=4
 setlocal noshortname
 setlocal smartindent
@@ -116,102 +115,14 @@ setlocal thesaurus=
 setlocal noundofile
 setlocal nowinfixheight
 setlocal nowinfixwidth
-setlocal wrap
+setlocal nowrap
 setlocal wrapmargin=0
-1
-normal zo
-4
-normal zo
-66
-normal zo
-88
-normal zo
-167
-normal zo
-198
-normal zo
-235
-normal zc
-267
-normal zc
-311
-normal zc
-317
-normal zo
-322
-normal zo
-341
-normal zo
-344
-normal zc
-372
-normal zc
-419
-normal zc
-425
-normal zc
-431
-normal zc
-437
-normal zc
-448
-normal zc
-618
-normal zc
-621
-normal zc
-651
-normal zo
-727
-normal zc
-737
-normal zc
-762
-normal zc
-777
-normal zc
-789
-normal zc
-793
-normal zc
-815
-normal zc
-830
-normal zc
-833
-normal zc
-836
-normal zc
-842
-normal zc
-853
-normal zc
-857
-normal zc
-861
-normal zc
-870
-normal zc
-878
-normal zc
-881
-normal zo
-884
-normal zc
-887
-normal zc
-890
-normal zc
-909
-normal zc
-997
-normal zo
-let s:l = 1351 - ((38 * winheight(0) + 19) / 39)
+let s:l = 176 - ((6 * winheight(0) + 20) / 41)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1351
-normal! 0
+176
+normal! 023l
 lcd ~/
 let &so = s:so_save | let &siso = s:siso_save
 doautoall SessionLoadPost
