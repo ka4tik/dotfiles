@@ -1,3 +1,118 @@
+snippet rmq "Range Min Query" !b
+#define MAXN 111111
+int tree[4*MAXN];
+int lazy[4*MAXN];
+vector<int> v;
+int N;
+void build(int node,int start,int end)
+{
+    if(start>end)
+        return ;
+    if(start==end)
+    {
+        tree[node]=v[start-1];
+        return ; 
+    }
+
+    int mid=(start+end)>>1;
+    build(2*node,start,mid);
+    build(2*node+1,mid+1,end);
+
+    tree[node]=min(tree[2*node],tree[2*node+1]);
+}
+void update(int node,int start,int end,int index,int value)
+{
+    if(start>end)
+        return ;
+    if(start==end)
+    {
+        tree[node]=value;
+        return ;
+    }
+    int mid=(start+end)>>1;
+    if(index<=mid)
+        update(2*node,start,mid,index,value);
+    else
+        update(2*node+1,mid+1,end,index,value);
+
+    tree[node]=min(tree[2*node],tree[2*node+1]);
+}
+int query(int node,int start,int end,int p,int q)
+{
+    if(start>end||start>q||end<p)
+        return INT_MAX;
+    if(start>=p&&q>=end)
+    {
+        return tree[node];
+    }
+    int mid=(start+end)>>1;
+
+    return min(query(2*node,start,mid,p,q),
+            query(2*node+1,mid+1,end,p,q));
+
+}
+endsnippet
+
+snippet LNDS "Longest Non Decreasing Sequence" !b
+int LNDS(vector<int> A)
+{
+    int N = A.size(),i;
+    set<int> s;
+    set<int>::iterator k;
+    for (i=0;i<N;i++)
+    {
+        if (s.insert(A[i]).second)
+        {
+            k = s.find(A[i]);
+            k++;
+            if (k!=s.end())
+                s.erase(k);
+        }
+    }
+    return s.size();
+}
+endsnippet
+snippet triarea "" !b
+int tri_area2(int x1,int y1,int x2,int y2,int x3,int y3)
+{
+    return (x1*(y2-y3)+x2*(y3-y1)+x3*(y1-y2));
+}
+int tri_area(int x1,int y1,int x2,int y2,int x3,int y3)
+{
+    return abs(tri_area2(x1,y1,x2,y2,x3,y3))/2.0;
+}
+bool clockwise(int x1,int y1,int x2,int y2,int x3,int y3)
+{
+    return tri_area2(x1,y1,x2,y2,x3,y3)<0;
+}
+bool counter_clockwise(int x1,int y1,int x2,int y2,int x3,int y3)
+{
+    return tri_area2(x1,y1,x2,y2,x3,y3)>0;
+}
+endsnippet
+
+snippet prim "Prim's Algorithm for MST" !b
+    set<ii> q;
+    q.insert(ii(0,0));
+    ll cost=0;
+
+    while(q.size()>0)
+    {
+        ii c=*(q.begin());
+        q.erase(q.begin());
+        int u=c.second;
+        int cw=c.first;
+        if(visit[u]) continue;
+        cost+=cw;
+        visit[u]=1;
+        for(int i=0;i<g[u].size();i++)
+        {
+            int v=g[u][i];
+            if(visit[v]) continue;
+            q.insert(ii(w[u][i],v));
+        }
+    }
+endsnippet
 snippet scc "Strongly Connected Components Kosaraju Algorithm" !b
 vector<int> g[MAXN],gr[MAXN];
 vector<int> visit(MAXN,0);
@@ -490,9 +605,12 @@ double randdouble()
 }
 endsnippet
 snippet db "Debug Macros" !b
-#define db(x) cout<<#x<<" : "<<x<<endl;
-#define db2(x,y) cout<<#x<<" : "<<x<<" "<<#y<<" : "<<y<<endl;
-#define db3(x,y,z) cout<<#x<<" : "<<x<<" "<<#y<<" : "<<y<<" "<<#z<<" : "<<z<<endl;
+#define db(x) cerr << #x << ": " << x << endl;
+#define db2(x, y) cerr << #x << ": " << x << " | " << #y << ": " << y << endl;
+#define db3(x, y, z) cerr << #x << ": " << x << " | " << #y << ": " << y << " | " << #z << ": " << z << endl;
+#define db4(a, b, c, d) cerr << #a << ": " << a << " | " << #b << ": " << b << " | " << #c << ": " << c << " | " << #d << ": " << d << endl;
+#define db5(a, b, c, d, e) cerr << #a << ": " << a << " | " << #b << ": " << b << " | " << #c << ": " << c << " | " << #d << ": " << d << " | " << #e << ": " << e << endl;
+#define db6(a, b, c, d, e, f) cerr << #a << ": " << a << " | " << #b << ": " << b << " | " << #c << ": " << c << " | " << #d << ": " << d << " | " << #e << ": " << e << " | " << #f << ": " << f << endl;
 endsnippet
 snippet modmul "Eutopian Multiplication" !b
 long long modmul(long long n,long long p)
