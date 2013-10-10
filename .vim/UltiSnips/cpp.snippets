@@ -1,3 +1,248 @@
+snippet fordadj "Ford Fukerson for large graphs" !b
+struct edge {
+    int a, b, cap, flow;
+};
+vector<edge> e;
+vector<int> g[MAXN];
+int visit[MAXN];
+int n;
+int s,t;
+int limit=INT_MAX;
+void add_edge (int a, int b, int cap) {
+    edge e1 = { a, b, cap, 0 };
+    edge e2 = { b, a, 0, 0 };
+    g[a].push_back ((int) e.size());
+    e.push_back (e1);
+    g[b].push_back ((int) e.size());
+    e.push_back (e2);
+}
+int dfs(int u,int t,int c)
+{
+    if(visit[u])
+        return false;
+    visit[u]=1;
+    if(u==t) return true;
+    for (int i=0; i<g[u].size();i++) {
+        int id = g[u][i],
+            to = e[id].b;
+        if((e[id].cap-e[id].flow)>=c&&dfs(to,t,c))
+        {
+            e[id].flow+=c;
+            e[id^1].flow-=c;
+            return true;
+        }
+    }
+    return false;
+}
+int maxflow()
+{
+    int flow=0;
+    int c=limit;
+    while(c)
+    {
+        for(int i=0;i<n;i++) visit[i]=0;
+        int f=dfs(s,t,c);
+        if(!f)
+            c/=2;
+        else
+            flow+=c;
+        if(flow>=limit)
+            return flow=limit;
+    }
+    return flow;
+}
+endsnippet
+snippet fordmatrix "Ford Fukkerson Maxflow using Capicty Matrix" !b
+#define INF INT_MAX 
+int cap[MAXN][MAXN];
+int visit[MAXN];
+int n;
+int s,t;
+int limit=INT_MAX;
+int dfs(int u,int t,int c)
+{
+    if(visit[u])
+        return false;
+    visit[u]=1;
+    if(u==t) return true;
+    for(int i=0;i<n;i++)
+    {
+        if(cap[u][i]>=c&&dfs(i,t,c))
+        {
+            cap[u][i]-=c;
+            cap[i][u]+=c;
+            return true;
+        }
+    }
+    return false;
+}
+int maxflow()
+{
+    int flow=0;
+    int c=limit;
+    while(c)
+    {
+        for(int i=0;i<n;i++) visit[i]=0;
+        int f=dfs(s,t,c);
+        if(!f)
+            c/=2;
+        else
+            flow+=c;
+        if(flow>=limit)
+            return flow=limit;
+    }
+    return flow;
+}
+endsnippet
+snippet dinic "Description" !b
+const int INF = INT_MAX;
+int n, c[MAXN][MAXN], f[MAXN][MAXN], s, t, d[MAXN], ptr[MAXN], q[MAXN];
+bool bfs() {
+    int qh=0, qt=0;
+    q[qt++] = s;
+    memset (d, -1, n * sizeof d[0]);
+    d[s] = 0;
+    while (qh < qt) {
+        int v = q[qh++];
+        for (int to=0; to<n; ++to)
+            if (d[to] == -1 && f[v][to] < c[v][to]) {
+                q[qt++] = to;
+                d[to] = d[v] + 1;
+            }
+    }
+    return d[t] != -1;
+}
+
+int dfs (int v, int flow) {
+    if (!flow)  return 0;
+    if (v == t)  return flow;
+    for (int & to=ptr[v]; to<n; ++to) {
+        if (d[to] != d[v] + 1)  continue;
+        int pushed = dfs (to, min (flow, c[v][to] - f[v][to]));
+        if (pushed) {
+            f[v][to] += pushed;
+            f[to][v] -= pushed;
+            return pushed;
+        }
+    }
+    return 0;
+}
+
+int dinic() {
+    int flow = 0;
+    for (;;) {
+        if (!bfs())  break;
+        memset (ptr, 0, n * sizeof ptr[0]);
+        while (int pushed = dfs (s, INF))
+            flow += pushed;
+    }
+    return flow;
+}
+
+endsnippet
+snippet egcd "Extended GCD" !b
+int egcd(int a,int b,int &x,int &y)
+{
+    if(b==0)
+    {
+        x=1;
+        y=0;
+        return a;
+    }
+    
+    int x1,y1;
+    int d=egcd(b,a%b,x1,y1);
+    y=x1;
+    x=y1-(b/a)*x1;
+    return d;
+}
+endsnippet
+snippet phifast "phifast" !b
+int totient[MAXN];
+vector<bool> mark(MAXN>>1);
+int lf[MAXN];
+int phi(int n)
+{
+    int ret=n;
+    for(int i=2;i*i<=n;i++)
+    {
+        if(n%i==0) ret-=ret/i;
+        while(n%i==0)
+            n/=i;
+    }
+    if(n>1)
+        ret-=ret/n;
+    return ret;
+}
+bool isprime(int n)
+{
+    if(n<2) return 0;
+    if(n==2) return 1;
+    if(!(n&1)) return 0;
+    else
+        return !mark[n>>1];
+}
+int phifast(int n)
+{
+    if(totient[n]) return totient[n];
+    if(n<=1) return 1;
+
+    if(isprime(n))
+        return totient[n]=n-1;
+
+    if(!(n&1))
+    {
+        int m=n>>1;
+        if((m&1))
+            return totient[n]=phifast(m);
+        else
+            return totient[n]=phifast(m)<<1;
+    }
+
+    int o=n/lf[n];
+    int m=lf[n];
+    int g=__gcd(m,o);
+
+    if(g==1)
+        return totient[n]=phifast(m)*phifast(o);
+    else
+        return totient[n]=phifast(m)*phifast(o)*g/phifast(g);
+
+}
+void sieve()
+{
+    int i;
+    for(i=3;i*i<MAXN;i+=2)
+    {
+        if(!mark[i>>1])
+        {
+            for(int j=i*i;j<MAXN;j+=2*i)
+            {
+                mark[j>>1]=1;	
+                lf[j]=i;
+
+            }
+        }
+    
+    }
+}
+
+endsnippet
+snippet phi "Single Totinet" !b
+int phi(int n)
+{
+    int ret=n;
+    for(int i=2;i*i<=n;i++)
+    {
+        if(n%i==0) ret-=ret/i;
+        while(n%i==0)
+            n/=i;
+    }
+    if(n>1)
+        ret-=ret/n;
+    return ret;
+}
+endsnippet
 snippet rmq "Range Min Query" !b
 #define MAXN 111111
 int tree[4*MAXN];
@@ -292,64 +537,47 @@ sort(v.begin(),v.end());
 v.erase(unique(v.begin(),v.end()),v.end());
 endsnippet
 snippet gauss "Gaussian Elimination" !b
-#define EPS 1e-9
-double matrix[MAXN][MAXN];
-double b[MAXN];
-double ans[MAXN];
-int N,M;
-int gauss(){
+#define EPS 1E-9
+int gauss (vector < vector<double> > a, vector<double> & ans) {
+    int n = (int) a.size();
+    int m = (int) a[0].size() - 1;
 
-    vector<int> where(M,-1);
-    for(int col=0,row=0;row<N&&col<M;col++)
-    {
-        int sel=row;
-        for(int i=row;i<N;i++)
-        {
-            if(abs(matrix[i][col])>abs(matrix[sel][col]))
-                sel=i;
-        }
-        if(abs(matrix[sel][col])<EPS)
+    vector<int> where (m, -1);
+    for (int col=0, row=0; col<m && row<n; ++col) {
+        int sel = row;
+        for (int i=row; i<n; ++i)
+            if (abs (a[i][col]) > abs (a[sel][col]))
+                sel = i;
+        if (abs (a[sel][col]) < EPS)
             continue;
+        for (int i=col; i<=m; ++i)
+            swap (a[sel][i], a[row][i]);
+        where[col] = row;
 
-        for(int i=col;i<M;i++)
-            swap(matrix[sel][i],matrix[row][i]);
-        swap(b[sel],b[row]);
-
-        where[col]=row;
-
-        for(int i=0;i<N;i++)
-        {
-            if(i!=row)
-            {
-                double ratio=matrix[i][col]/matrix[row][col];
-                for(int j=col;j<M;j++)
-                    matrix[i][j]-=ratio*matrix[row][j];
-                b[i]-=ratio*b[row];
+        for (int i=0; i<n; ++i)
+            if (i != row) {
+                double c = a[i][col] / a[row][col];
+                for (int j=col; j<=m; ++j)
+                    a[i][j] -= a[row][j] * c;
             }
-        }
-        row++;
+        ++row;
     }
 
-    for(int i=0;i<M;i++)
-    {
-        if(where[i]!=-1)
-            ans[i]=b[where[i]]/matrix[where[i]][i];
-    }
-
-    for(int i=0;i<N;i++)
-    {
-        double sum=0;
-        for(int j=0;j<M;j++)
-            sum+=ans[j]*matrix[i][j];
-        if(abs(sum-b[i])>EPS)
+    ans.assign (m, 0);
+    for (int i=0; i<m; ++i)
+        if (where[i] != -1)
+            ans[i] = a[where[i]][m] / a[where[i]][i];
+    for (int i=0; i<n; ++i) {
+        double sum = 0;
+        for (int j=0; j<m; ++j)
+            sum += ans[j] * a[i][j];
+        if (abs (sum - a[i][m]) > EPS)
             return 0;
     }
 
-    for(int i=0;i<M;i++)
-    {
-        if(where[i]==-1)
+    for (int i=0; i<m; ++i)
+        if (where[i] == -1)
             return INT_MAX;
-    }
     return 1;
 }
 endsnippet
@@ -623,8 +851,8 @@ long long modmul(long long n,long long p)
             if(ret>=mod) ret%=mod;
         }
 
-        p=p>>1;
-        n=(n<<1);
+        p>>=1;
+		n<<=1;
         if(n>=mod)
             n%=mod;
     }
@@ -711,12 +939,6 @@ bool isprime(ll p, int iter)
 endsnippet
 snippet for "Description" !b
 for(int i=0;i<N;i++)
-{
-
-}
-endsnippet
-snippet ford "Description" !b
-for(int i=N-1;i>=0;i--)
 {
 
 }
