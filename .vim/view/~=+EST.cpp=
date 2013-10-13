@@ -1,8 +1,27 @@
 let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
 argglobal
+let s:cpo_save=&cpo
+set cpo&vim
+nmap <buffer> '[ <Plug>SIG_PrevLineByAlpha
+nmap <buffer> '] <Plug>SIG_NextLineByAlpha
+nmap <buffer> [- <Plug>SIG_PrevMarkerByType
+nmap <buffer> [` <Plug>SIG_PrevSpotByPos
+nmap <buffer> [' <Plug>SIG_PrevLineByPos
+nmap <buffer> ]- <Plug>SIG_NextMarkerByType
+nmap <buffer> ]` <Plug>SIG_NextSpotByPos
+nmap <buffer> ]' <Plug>SIG_NextLineByPos
+nmap <buffer> `[ <Plug>SIG_PrevSpotByAlpha
+nmap <buffer> `] <Plug>SIG_NextSpotByAlpha
+nmap <buffer> m<BS> <Plug>SIG_PurgeMarkers
+nmap <buffer> m  <Plug>SIG_PurgeMarks
+nmap <buffer> m, <Plug>SIG_PlaceNextMark
+nnoremap <buffer> <silent> m :call signature#Input()
+let &cpo=s:cpo_save
+unlet s:cpo_save
 setlocal keymap=
 setlocal noarabic
 setlocal autoindent
+setlocal balloonexpr=
 setlocal nobinary
 setlocal bufhidden=
 setlocal buflisted
@@ -83,7 +102,7 @@ setlocal nospell
 setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
 setlocal spellfile=
 setlocal spelllang=en
-setlocal statusline=%!Pl#Statusline(0,1)
+setlocal statusline=%!airline#statusline(1)
 setlocal suffixesadd=
 setlocal swapfile
 setlocal synmaxcol=3000
@@ -100,12 +119,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 90 - ((16 * winheight(0) + 20) / 41)
+let s:l = 653 - ((30 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-90
-normal! 0
+653
+normal! 015l
 lcd ~/
 let &so = s:so_save | let &siso = s:siso_save
 doautoall SessionLoadPost

@@ -1,8 +1,27 @@
 let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
 argglobal
+let s:cpo_save=&cpo
+set cpo&vim
+nmap <buffer> '[ <Plug>SIG_PrevLineByAlpha
+nmap <buffer> '] <Plug>SIG_NextLineByAlpha
+nmap <buffer> [- <Plug>SIG_PrevMarkerByType
+nmap <buffer> [` <Plug>SIG_PrevSpotByPos
+nmap <buffer> [' <Plug>SIG_PrevLineByPos
+nmap <buffer> ]- <Plug>SIG_NextMarkerByType
+nmap <buffer> ]` <Plug>SIG_NextSpotByPos
+nmap <buffer> ]' <Plug>SIG_NextLineByPos
+nmap <buffer> `[ <Plug>SIG_PrevSpotByAlpha
+nmap <buffer> `] <Plug>SIG_NextSpotByAlpha
+nmap <buffer> m<BS> <Plug>SIG_PurgeMarkers
+nmap <buffer> m  <Plug>SIG_PurgeMarks
+nmap <buffer> m, <Plug>SIG_PlaceNextMark
+nnoremap <buffer> <silent> m :call signature#Input()
+let &cpo=s:cpo_save
+unlet s:cpo_save
 setlocal keymap=
 setlocal noarabic
 setlocal autoindent
+setlocal balloonexpr=
 setlocal nobinary
 setlocal bufhidden=hide
 setlocal nobuflisted
@@ -99,7 +118,7 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal nowrap
 setlocal wrapmargin=0
-let s:l = 6 - ((5 * winheight(0) + 12) / 24)
+let s:l = 6 - ((5 * winheight(0) + 10) / 20)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt

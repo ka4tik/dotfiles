@@ -1,3 +1,191 @@
+snippet bpm "Bipartite Matching" !b
+vector<int> visit;
+vector<int> match;
+int edge[MAXN][MAXN];
+int n,m;
+int dfs(int u)
+{
+    if(visit[u]) return false;
+    visit[u]=1;
+    for(int i=0;i<n;i++)
+    {
+        if(!edge[u][i]) continue;
+        if(match[i]==-1||dfs(match[i]))
+        {
+            match[i]=u;
+            return true;
+        }
+    }
+    return false;
+}
+int bmp()
+{
+    int matched=0;
+    match.assign(m,-1);
+
+    for(int i=0;i<n;i++)
+    {
+        visit.assign(n,0);
+        if(dfs(i))
+            matched++;
+    }
+    return matched;
+
+}
+endsnippet
+snippet mincostmatch "Hungerian Algorithm for mincost matching in Bipartite Graph O(N^2*M)" !b
+#define INF INT_MAX
+int n,m;
+vector< vector<int> > a;
+vector<int> ans;
+//if perfect maching is required add infinity to missing edges otherwise add 0
+int min_cost_match(){
+
+    vector<int> u(n+1),v(m+1),p(m+1),way(m+1);
+
+    for(int i=1;i<=n;++i) 
+    {
+        p[0] = i;
+        int j0 = 0;
+        vector<int> minv (m+1, INF);
+        vector<char> used (m+1, false);
+        do {
+            used[j0] = true;
+            int i0 = p[j0],  delta = INF,  j1;
+            for (int j=1; j<=m; ++j)
+                if (!used[j]) {
+                    int cur = a[i0][j]-u[i0]-v[j];
+                    if (cur < minv[j])
+                        minv[j] = cur,  way[j] = j0;
+                    if (minv[j] < delta)
+                        delta = minv[j],  j1 = j;
+                }
+            for (int j=0; j<=m; ++j)
+                if (used[j])
+                    u[p[j]] += delta,  v[j] -= delta;
+                else
+                    minv[j] -= delta;
+            j0 = j1;
+        }
+        while (p[j0] != 0);
+        do {
+            int j1 = way[j0];
+            p[j0] = p[j1];
+            j0 = j1;
+        }
+        while (j0);
+    }
+    ans.resize(n+1);
+    for(int i=1;i<=m;i++)
+    {
+        ans[p[i]]=i;
+    }
+    //for(int i=1;i<=n;i++)
+    //{
+        //cout<<ans[i]<<" ";
+    //}
+    //cout<<endl;
+
+    int cost=-v[0];
+    return cost; 
+}
+endsnippet
+snippet ss "String scanf" !b
+scanf("%s",str);
+endsnippet
+snippet suffixarray "Suffix Array" !b
+char str[MAXN];
+const int alphabet=256;
+int log_n;
+int n;
+vector< vector<int> > cns;
+vector< int> sa;
+int compare (int i, int j, int l) //compare to strings of len l in contant time
+{
+    int k=0;
+    while((1<<k)<l)
+        k++;
+    if((1<<k)>l) k--;
+
+    pair<int,int> a = make_pair (cns[k][i], cns[k][i+l-(1<<k)]);
+    pair<int,int> b = make_pair (cns[k][j], cns[k][j+l-(1<<k)]);
+    return a == b ? 0 : a < b ? -1 : 1;
+}
+int lcp(int i,int j) //longest common prefix of substrings at index i and j
+{
+    int len=0;
+    int oi=i,oj=j;
+    for(int k=cns.size()-1;k>=0;k--)
+    {
+        if(cns[k][i]==cns[k][j])
+        {
+            len+=(1<<k);
+            i+=(1<<k);
+            j+=(1<<k);
+        }
+    }
+    return (min(min(n-oi,n-oj),len));
+
+}
+void suffix()
+{
+
+    cns.clear();
+    vector<int> cnt(max(alphabet,n),0);
+    vector<int> p(n);
+    vector<int> c(n);
+
+    for (int i=0; i<n; ++i)
+        ++cnt[str[i]];
+
+    for (int i=1; i<alphabet; ++i)
+        cnt[i] += cnt[i-1];
+    for (int i=0; i<n; ++i)
+        p[--cnt[str[i]]] = i;
+
+    c[p[0]] = 0;
+
+    int classes = 1;
+    for (int i=1; i<n; ++i) {
+        if (str[p[i]] != str[p[i-1]])  ++classes;
+        c[p[i]] = classes-1;
+    }
+    cns.push_back(c);
+    vector<int> pn(n);
+    vector<int> cn(n);
+    for (int h=0; (1<<h)<n; ++h) {
+        for (int i=0; i<n; ++i) {
+            pn[i] = p[i] - (1<<h);
+            if (pn[i] < 0)  pn[i] += n;
+        }
+        for(int i=0;i<classes;i++) cnt[i]=0;
+
+        for (int i=0; i<n; ++i)
+            ++cnt[c[pn[i]]];
+        for (int i=1; i<classes; ++i)
+            cnt[i] += cnt[i-1];
+        for (int i=n-1; i>=0; --i)
+            p[--cnt[c[pn[i]]]] = pn[i];
+        cn[p[0]] = 0;
+        classes = 1;
+        for (int i=1; i<n; ++i) {
+            int mid1 = (p[i] + (1<<h)) % n,  mid2 = (p[i-1] + (1<<h)) % n;
+            if (c[p[i]] != c[p[i-1]] || c[mid1] != c[mid2])
+                ++classes;
+            cn[p[i]] = classes-1;
+        }
+        c=cn;
+        cns.push_back(c);
+    }
+    sa=p;
+    for(int i=0;i<sa.size();i++)
+    {
+		cout<<sa[i]<<" ";
+    }
+    cout<<endl;
+}
+endsnippet
+
 snippet fordadj "Ford Fukerson for large graphs" !b
 struct edge {
     int a, b, cap, flow;
@@ -52,6 +240,7 @@ int maxflow()
     return flow;
 }
 endsnippet
+
 snippet fordmatrix "Ford Fukkerson Maxflow using Capicty Matrix" !b
 #define INF INT_MAX 
 int cap[MAXN][MAXN];
@@ -94,6 +283,7 @@ int maxflow()
     return flow;
 }
 endsnippet
+
 snippet dinic "Description" !b
 const int INF = INT_MAX;
 int n, c[MAXN][MAXN], f[MAXN][MAXN], s, t, d[MAXN], ptr[MAXN], q[MAXN];
@@ -317,6 +507,7 @@ int LNDS(vector<int> A)
     return s.size();
 }
 endsnippet
+
 snippet triarea "" !b
 int tri_area2(int x1,int y1,int x2,int y2,int x3,int y3)
 {
@@ -831,6 +1022,9 @@ double randdouble()
 {
     return double(rand())/double(RAND_MAX);
 }
+endsnippet
+snippet dh "" !b
+cout<<"here"<<endl;
 endsnippet
 snippet db "Debug Macros" !b
 #define db(x) cerr << #x << ": " << x << endl;
