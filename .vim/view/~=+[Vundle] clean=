@@ -1,37 +1,19 @@
 let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
 argglobal
-let s:cpo_save=&cpo
-set cpo&vim
-nmap <buffer> '[ <Plug>SIG_PrevLineByAlpha
-nmap <buffer> '] <Plug>SIG_NextLineByAlpha
 nnoremap <buffer> ? :norm h
 nnoremap <buffer> C :BundleClean!
 nnoremap <buffer> D :exec 'Delete'.getline('.')
 nnoremap <buffer> I :exec 'InstallAndRequire'.substitute(getline('.'), '^Bundle ', 'Bundle! ', '')
 nnoremap <buffer> R :call vundle#scripts#reload()
-nmap <buffer> [- <Plug>SIG_PrevMarkerByType
-nmap <buffer> [` <Plug>SIG_PrevSpotByPos
-nmap <buffer> [' <Plug>SIG_PrevLineByPos
-nmap <buffer> ]- <Plug>SIG_NextMarkerByType
-nmap <buffer> ]` <Plug>SIG_NextSpotByPos
-nmap <buffer> ]' <Plug>SIG_NextLineByPos
-nmap <buffer> `[ <Plug>SIG_PrevSpotByAlpha
-nmap <buffer> `] <Plug>SIG_NextSpotByAlpha
 nnoremap <buffer> add! :exec 'Install'.substitute(getline('.'), '^Bundle ', 'Bundle! ', '')
 nnoremap <buffer> add :exec 'Install'.getline('.')
 nnoremap <buffer> c :BundleClean
 nnoremap <buffer> h :h vundle
 nnoremap <buffer> i :exec 'InstallAndRequire'.getline('.')
 nnoremap <buffer> l :VundleLog
-nmap <buffer> m<BS> <Plug>SIG_PurgeMarkers
-nmap <buffer> m  <Plug>SIG_PurgeMarks
-nmap <buffer> m, <Plug>SIG_PlaceNextMark
-nnoremap <buffer> <silent> m :call signature#Input()
 nnoremap <buffer> q :silent bd!
 nnoremap <buffer> s :BundleSearch 
 nnoremap <buffer> u :VundleChangelog
-let &cpo=s:cpo_save
-unlet s:cpo_save
 setlocal keymap=
 setlocal noarabic
 setlocal autoindent
@@ -116,7 +98,7 @@ setlocal nospell
 setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
 setlocal spellfile=
 setlocal spelllang=en
-setlocal statusline=%{airline#check_mode()}%#airline_a#%(\ Preview\ %)%#airline_a_to_airline_b#>%#airline_b#%#airline_b_to_airline_c#>%#airline_c#%<%(\ [Vundle]\ clean\ %)%#airline_c#\ %#airline_file#%{airline#extensions#readonly#get_mark()}\ %=%#airline_c_to_airline_x#<%#airline_x#%(\ %{strlen(&filetype)>0?&filetype:''}\ %)%#airline_x_to_airline_y#<%#airline_y#%(\ %{strlen(&fenc)>0?&fenc:''}%{strlen(&ff)>0?'['.&ff.']':''}\ %)%#airline_y_to_airline_z#<%#airline_z#%(\ %3p%%\ :%3l:%3c\ %)%(%#airline_z_to_airline_warningmsg#<%#airline_warningmsg#\ %{airline#extensions#whitespace#check()}%{SyntasticStatuslineFlag()}%)
+setlocal statusline=%!Pl#Statusline(0,0)
 setlocal suffixesadd=
 setlocal noswapfile
 setlocal synmaxcol=3000
@@ -132,11 +114,11 @@ setlocal winfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-let s:l = 66 - ((38 * winheight(0) + 19) / 39)
+let s:l = 3 - ((2 * winheight(0) + 11) / 22)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-66
+3
 normal! 0
 lcd ~/
 let &so = s:so_save | let &siso = s:siso_save
