@@ -85,7 +85,6 @@ fi
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-alias pythonserver='python -m SimpleHTTPServer'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -113,3 +112,33 @@ export PATH="/usr/local/heroku/bin:$PATH"
 PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting
 source ~/.rvm/scripts/rvm
 
+alias pythonserver='python -m SimpleHTTPServer'
+alias ..='cd ..'
+alias apt-get='sudo apt-get'
+alias c='clear'
+### basic calculator
+alias bc='bc -l'
+alias h='history'
+function up( )
+{
+LIMIT=$1
+P=$PWD
+for ((i=1; i <= LIMIT; i++))
+do
+    P=$P/..
+done
+cd $P
+export MPWD=$P
+}
+
+function back( )
+{
+LIMIT=$1
+P=$MPWD
+for ((i=1; i <= LIMIT; i++))
+do
+    P=${P%/..}
+done
+cd $P
+export MPWD=$P
+}
