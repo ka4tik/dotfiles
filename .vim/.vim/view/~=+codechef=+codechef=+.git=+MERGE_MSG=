@@ -7,12 +7,12 @@ setlocal nobinary
 setlocal bufhidden=
 setlocal buflisted
 setlocal buftype=
-setlocal cindent
+setlocal nocindent
 setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
 setlocal cinoptions=
 setlocal cinwords=if,else,while,do,for,switch
 setlocal colorcolumn=
-setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
+setlocal comments=s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,fb:-
 setlocal commentstring=/*%s*/
 setlocal complete=.,w,b,u,t,i
 setlocal concealcursor=
@@ -20,53 +20,53 @@ setlocal conceallevel=0
 setlocal completefunc=
 setlocal nocopyindent
 setlocal cryptmethod=
-setlocal cursorbind
+setlocal nocursorbind
 setlocal nocursorcolumn
 setlocal nocursorline
 setlocal define=
 setlocal dictionary=
-setlocal diff
+setlocal nodiff
 setlocal equalprg=
 setlocal errorformat=
 setlocal expandtab
-if &filetype != 'cpp'
-setlocal filetype=cpp
+if &filetype != 'gitcommit'
+setlocal filetype=gitcommit
 endif
-setlocal foldcolumn=2
+setlocal foldcolumn=0
 setlocal foldenable
 setlocal foldexpr=0
 setlocal foldignore=#
 setlocal foldlevel=0
 setlocal foldmarker={{{,}}}
-setlocal foldmethod=diff
+setlocal foldmethod=manual
 setlocal foldminlines=1
 setlocal foldnestmax=20
 setlocal foldtext=foldtext()
 setlocal formatexpr=
-setlocal formatoptions=tcq
+setlocal formatoptions=cqtl
 setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
 setlocal grepprg=
 setlocal iminsert=0
 setlocal imsearch=0
 setlocal include=
-setlocal includeexpr=
+setlocal includeexpr=substitute(v:fname,'^[^/]\\+/','','')
 setlocal indentexpr=
 setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
 setlocal noinfercase
 setlocal iskeyword=@,48-57,_,192-255
-setlocal keywordprg=
+setlocal keywordprg=git\ --git-dir='/home/ka4tik/codechef/codechef/.git'\ show
 setlocal nolinebreak
 setlocal nolisp
 setlocal nolist
 setlocal makeprg=
 setlocal matchpairs=(:),{:},[:]
-setlocal modeline
+setlocal nomodeline
 setlocal modifiable
 setlocal nrformats=octal,hex
 setlocal number
 setlocal numberwidth=4
-setlocal omnifunc=ccomplete#Complete
-setlocal path=
+setlocal omnifunc=
+setlocal path=~/codechef/codechef/.git,~/codechef/codechef,
 setlocal nopreserveindent
 setlocal nopreviewwindow
 setlocal quoteescape=\\
@@ -74,7 +74,7 @@ setlocal noreadonly
 setlocal norelativenumber
 setlocal norightleft
 setlocal rightleftcmd=search
-setlocal scrollbind
+setlocal noscrollbind
 setlocal shiftwidth=4
 setlocal noshortname
 setlocal smartindent
@@ -87,25 +87,25 @@ setlocal statusline=%!Pl#Statusline(0,1)
 setlocal suffixesadd=
 setlocal noswapfile
 setlocal synmaxcol=3000
-if &syntax != 'cpp'
-setlocal syntax=cpp
+if &syntax != 'gitcommit'
+setlocal syntax=gitcommit
 endif
-setlocal tabstop=4
+setlocal tabstop=8
 setlocal tags=
-setlocal textwidth=0
+setlocal textwidth=72
 setlocal thesaurus=
 setlocal noundofile
 setlocal nowinfixheight
 setlocal nowinfixwidth
-setlocal nowrap
+setlocal wrap
 setlocal wrapmargin=0
-let s:l = 147 - ((37 * winheight(0) + 19) / 38)
+silent! normal! zE
+let s:l = 1 - ((0 * winheight(0) + 11) / 23)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-147
+1
 normal! 0
-lcd ~/
 let &so = s:so_save | let &siso = s:siso_save
 doautoall SessionLoadPost
 " vim: set ft=vim :
