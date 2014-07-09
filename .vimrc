@@ -1,54 +1,39 @@
+set nocompatible              " be iMproved, required
+filetype off                  " required
 
-filetype off                   " required!
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+" let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
+Plugin 'junegunn/vim-easy-align'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'xuhdev/SingleCompile'
+Plugin 'SirVer/ultisnips'
+Plugin 'scrooloose/syntastic'
+Plugin 'scrooloose/nerdtree'
+Plugin 'flazz/vim-colorschemes'
+Plugin 'Lokaltog/vim-powerline'
+Plugin 'sjl/gundo.vim'
+Plugin 'tomasr/molokai'
 
-" let Vundle manage Vundle
-" required! 
-Bundle 'gmarik/vundle'
-
-" My Bundles here:
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
 "
-" original repos on github
-Bundle 'junegunn/vim-easy-align'
-Bundle 'scrooloose/nerdcommenter'
-Bundle 'xuhdev/SingleCompile'
-Bundle 'SirVer/ultisnips'
-Bundle 'scrooloose/syntastic'
-Bundle 'scrooloose/nerdtree'
-Bundle 'flazz/vim-colorschemes'
-Bundle 'Lokaltog/vim-powerline'
-Bundle 'sjl/gundo.vim'
-Bundle 'tomasr/molokai'
-"Bundle 'skammer/vim-css-color'
-"Bundle 'vim-scripts/xoria256.vim'
-"Bundle 'mhinz/vim-startify'
-"Bundle 'arecarn/crunch'
-"Bundle 'uguu-org/vim-matrix-screensaver'
-"Bundle 'tpope/vim-endwise'
-"Bundle 'tpope/vim-surround'
-"Bundle 'vim-scripts/matchit.zip'
-"Bundle 'vim-scripts/mru.vim'
-"Bundle 'chriskempson/tomorrow-theme'
-"Bundle 'kshenoy/vim-signature'
-"bundle 'matze/vim-move'
-"bundle 'bling/vim-airline'
-"bundle 'arecarn/frisk'
-"bundle 'rip-rip/clang_complete'
-"bundle 'vim-scripts/conque-shell'
-"bundle 'hackerearth/hackerearth.vim'
-"bundle 'mattn/webapi-vim'
-"bundle 'mattn/gist-vim'
-"bundle 'raimondi/delimitmate'
-"bundle 'valloric/youcompleteme'
-"bundle 'vim-scripts/wombat'
-"bundle 'baskerville/bubblegum'
-"bundle 'vim-scripts/autosavesetting'
-"Bundle 'altercation/vim-colors-solarized'
-Bundle 'itchyny/calendar.vim'
-
-filetype plugin indent on 
+" Brief help
+" :PluginList          - list configured plugins
+" :PluginInstall(!)    - install (update) plugins
+" :PluginSearch(!) foo - search (or refresh cache first) for foo
+" :PluginClean(!)      - confirm (or auto-approve) removal of unused plugins
+"
+" see :h vundle for more details or wiki for FAQ
+" Put your non-Plugin stuff after this line
 
 "let mapleader=","
 noremap <F5> :GundoToggle<CR>
@@ -59,10 +44,10 @@ noremap <leader>g :!gedit %<CR>
 noremap <leader>i :!gedit in<CR>
 noremap <leader>s :call UltiSnips_ListSnippets()<CR>
 
-"added map for adding tempalate 
+"added map for adding tempalate
 nnoremap nkl :0r ~/template.cpp<CR>
 
-"map for ESC to kj 
+"map for ESC to kj
 inoremap kj <Esc>
 
 "maps for SingleCompile
@@ -73,14 +58,14 @@ syntax enable
 
 "set background=dark
 "color solarized
-"color Monokai 
-"color badwolf 
-color molokai 
+"color Monokai
+"color badwolf
+color molokai
 "color xoria256
 "color zenburn
-"color stingray 
-"color herald 
-"color 256-grayvim  
+"color stingray
+"color herald
+"color 256-grayvim
 nmap \q :nohlsearch<CR>
 set incsearch
 set ignorecase
@@ -106,7 +91,7 @@ set noswapfile
 " Remember cursor position
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 
-" Remember folds 
+" Remember folds
 au BufWinLeave * mkview
 au BufWinEnter * silent loadview
 
@@ -116,4 +101,3 @@ au BufWinEnter * silent loadview
 nmap <leader>y "*y
 nmap <leader>Y "*yy
 nmap <leader>p "*p
-
