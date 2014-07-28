@@ -89,7 +89,7 @@ set backspace=indent,eol,start
 set noswapfile
 
 " Remember cursor position
-au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
+"au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 
 " Remember folds
 au BufWinLeave * mkview
