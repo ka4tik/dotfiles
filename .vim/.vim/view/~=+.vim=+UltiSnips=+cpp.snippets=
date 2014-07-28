@@ -99,20 +99,12 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
-139
-normal zo
-917
-normal zo
-1335
-normal zo
-1470
-normal zo
-let s:l = 1471 - ((21 * winheight(0) + 21) / 42)
+let s:l = 702 - ((11 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1471
-normal! 08l
+702
+normal! 09|
 lcd ~/
 let &so = s:so_save | let &siso = s:siso_save
 doautoall SessionLoadPost

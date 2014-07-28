@@ -45,6 +45,7 @@ unlet s:cpo_save
 setlocal keymap=
 setlocal noarabic
 setlocal autoindent
+setlocal balloonexpr=
 setlocal nobinary
 setlocal bufhidden=hide
 setlocal nobuflisted
@@ -88,8 +89,8 @@ setlocal formatexpr=
 setlocal formatoptions=tcq
 setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
 setlocal grepprg=
-setlocal iminsert=0
-setlocal imsearch=0
+setlocal iminsert=2
+setlocal imsearch=2
 setlocal include=
 setlocal includeexpr=
 setlocal indentexpr=
@@ -141,11 +142,11 @@ setlocal nowinfixheight
 setlocal nowinfixwidth
 setlocal nowrap
 setlocal wrapmargin=0
-let s:l = 21 - ((20 * winheight(0) + 20) / 41)
+let s:l = 8 - ((7 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-21
+8
 normal! 0
 let &so = s:so_save | let &siso = s:siso_save
 doautoall SessionLoadPost

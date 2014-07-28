@@ -100,11 +100,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 27 - ((26 * winheight(0) + 19) / 38)
+let s:l = 1 - ((0 * winheight(0) + 19) / 38)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-27
+1
 normal! 0
 lcd ~/
 let &so = s:so_save | let &siso = s:siso_save

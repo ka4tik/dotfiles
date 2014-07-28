@@ -15,6 +15,7 @@ nnoremap <buffer> <silent> ]] m':call search('^\s*fu\%[nction]\>', "W")
 setlocal keymap=
 setlocal noarabic
 setlocal autoindent
+setlocal balloonexpr=
 setlocal nobinary
 setlocal bufhidden=
 setlocal buflisted
@@ -112,11 +113,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 12 - ((11 * winheight(0) + 19) / 38)
+let s:l = 103 - ((39 * winheight(0) + 20) / 40)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-12
+103
 normal! 0
 let &so = s:so_save | let &siso = s:siso_save
 doautoall SessionLoadPost
