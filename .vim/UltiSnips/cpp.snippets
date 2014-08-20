@@ -1,3 +1,18 @@
+snippet normalize_array "Normalizes array values" !b
+vector<int> normalize_array(vector<int> v)
+{
+    clock_t start=clock();
+    vector<int> vc=v;
+    sort(vc.begin(),vc.end());
+    vc.erase(unique(vc.begin(),vc.end()),vc.end());
+    map<int,int> m;
+    for(int i=0;i<vc.size();i++)
+        m[vc[i]]=i+1;
+    for(int i=0;i<v.size();i++)
+        v[i]=m[v[i]];
+    return v;
+}
+endsnippet
 snippet find_bounds "Finds left most and right most indexes in a sorted array" !b
 pair<int,int> find_bounds(vector<int> &A, int target) 
 {
@@ -1993,17 +2008,18 @@ void gentests()
     ofstream file;
     file.open("in");
     int test=1;
+	file<<test<<endl;
     while(test--)
     {
         int n=10000;
         file<<n<<endl;
         for(int i=0;i<n;i++)
         {
-            file<<(rand()%10)+1<<" " ;
+            file<<(rand())<<" " ;
         }
         file<<endl;
-        file.close();
     }
+	file.close();
 }
 endsnippet
 snippet pll "description" !b
