@@ -1317,9 +1317,9 @@ void gentree()
 }
 endsnippet
 snippet dset "Union-Find DS" !b
-struct disjointset {
+struct DisjointSet {
     int *root, *rank, n;
-    disjointset(int sz) {
+    DisjointSet(int sz) {
         root = new int[sz+1];
         rank = new int[sz+1];
         n = sz;
