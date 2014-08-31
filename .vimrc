@@ -87,6 +87,8 @@ set expandtab " expand tabs to spaces
 set number
 set backspace=indent,eol,start
 set noswapfile
+set nobackup
+set nowritebackup
 
 " Remember cursor position
 "au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
@@ -94,10 +96,3 @@ set noswapfile
 " Remember folds
 au BufWinLeave * mkview
 au BufWinEnter * silent loadview
-
-"Paste Clipboard
-"nmap \y "+p
-"nmap \\ "+y
-nmap <leader>y "*y
-nmap <leader>Y "*yy
-nmap <leader>p "*p
