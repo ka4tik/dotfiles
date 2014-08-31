@@ -1,3 +1,48 @@
+snippet kmp "Kmp Algorithm for string matching" !b
+vector<int> kmp_table(string pattern)
+{
+    int pos=1;
+    int candidate=0;
+    vector<int> T(pattern.length());
+    T[0]=0;
+    while(pos<pattern.length())
+        if(pattern[pos]==pattern[candidate])
+            candidate++,T[pos]=candidate,pos++;
+        else if(candidate>0)
+            candidate=T[candidate-1];
+        else  
+            T[pos]=0,pos++;
+    return T;
+}
+vector<int> kmp_search(string pattern,string str)
+{
+    vector<int> T=kmp_table(pattern);
+    int m=0;
+    int i=0;
+    vector<int> matches;
+    while(m+i<str.length())
+    {
+        if(str[m+i]==pattern[i])
+        {
+            if(i==pattern.length()-1)
+            {
+                matches.push_back(m);
+                if(i>0)
+                    m=m+i-T[i-1],i=T[i-1];
+                else
+                    m++,i=0;
+            }
+            else
+                i++;
+        }
+        else if(i>0)
+            m=m+i-T[i-1],i=T[i-1];
+        else
+            m++,i=0;
+    }
+    return matches;
+}
+endsnippet
 snippet normalize_array "Normalizes array values" !b
 vector<int> normalize_array(vector<int> v)
 {
@@ -1216,25 +1261,20 @@ int gauss (vector < vector<double> > a, vector<double> & ans) {
 }
 endsnippet
 snippet lcp "Longest Common Prefix-Suffix" !b
-int lcp[MAXN];
-void compute_lcp()
+vector<int> kmp_table(string pattern)
 {
-    lcp[0]=0;
-    for(int i=1;i<N;i++)
-    {
-        if(str[i]==str[lcp[i-1]])
-            lcp[i]=lcp[i-1]+1;
-        else
-        {
-            int j=i-1;
-            while(j>0&&str[i]!=str[lcp[j]])
-                j=lcp[j]-1;
-            if(str[i]==str[lcp[j]])
-                lcp[i]=lcp[j]+1;
-            else
-                lcp[i]=0;
-        }
-    }
+    int pos=1;
+    int candidate=0;
+    vector<int> T(pattern.length());
+    T[0]=0;
+    while(pos<pattern.length())
+        if(pattern[pos]==pattern[candidate])
+            candidate++,T[pos]=candidate,pos++;
+        else if(candidate>0)
+            candidate=T[candidate-1];
+        else  
+            T[pos]=0,pos++;
+    return T;
 }
 endsnippet
 snippet gentree  "Genrate Random Tree" !b
