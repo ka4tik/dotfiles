@@ -1499,12 +1499,8 @@ snippet dh "" !b
 cout<<"here"<<endl;
 endsnippet
 snippet db "Debug Macros" !b
-#define db(x) cerr << #x << ": " << x << endl;
-#define db2(x, y) cerr << #x << ": " << x << " | " << #y << ": " << y << endl;
-#define db3(x, y, z) cerr << #x << ": " << x << " | " << #y << ": " << y << " | " << #z << ": " << z << endl;
-#define db4(a, b, c, d) cerr << #a << ": " << a << " | " << #b << ": " << b << " | " << #c << ": " << c << " | " << #d << ": " << d << endl;
-#define db5(a, b, c, d, e) cerr << #a << ": " << a << " | " << #b << ": " << b << " | " << #c << ": " << c << " | " << #d << ": " << d << " | " << #e << ": " << e << endl;
-#define db6(a, b, c, d, e, f) cerr << #a << ": " << a << " | " << #b << ": " << b << " | " << #c << ": " << c << " | " << #d << ": " << d << " | " << #e << ": " << e << " | " << #f << ": " << f << endl;
+struct debugger{template<typename T> debugger& operator,(const T& v){cerr<<v<<" ";return *this;}}dbg;
+#define db(args...) do {cerr << #args << ": "; dbg,args; cerr << endl;} while(0)
 endsnippet
 snippet mulmod "Eutopian Multiplication" !b
 ll mulmod(ll a,ll b,ll c)
