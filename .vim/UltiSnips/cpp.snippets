@@ -1,3 +1,181 @@
+snippet randombst "Random bst" !b
+struct RandomBST{
+
+    struct Node {
+        int key; int val;
+        Node *left,*right;
+        int N;
+        Node(int k, int v) {
+            key=k;
+            val=v; 
+            left = right = NULL;
+            N=1;
+        }
+    };
+
+    double randdouble()
+    {
+        return double(rand())/double(RAND_MAX);
+    }
+    Node *root;
+
+    RandomBST() {root = NULL;}
+
+
+    Node*  rotateLeft (Node *lt)
+    {  Node *rt = lt->right, *q = rt->left;
+        lt->N=1+size(lt->left)+size(lt->right->left);
+        lt->right->N=1+size(lt->right->right)+lt->N;
+        rt->left = lt;
+        lt->right= q;
+        return rt;      
+    }
+
+    Node* rotateRight(Node *rt)
+    {  Node  *lt = rt->left, *q = lt->right;
+        rt->N=1+size(q)+size(rt->right);
+        rt->left->N=1+size(lt->left)+rt->N;
+        lt->right= rt;
+        rt->left = q;
+        return lt;       
+    }
+    Node* insertRoot(Node* tree, int key, int val) {
+        if (tree == NULL) return new Node(key, val);
+        if (tree->key==key) {
+            tree->key = key; tree->val = val;
+        }
+        else if(key < tree->key) {
+            tree->left = insertRoot(tree->left, key, val);
+            tree = rotateRight(tree);
+        }
+        else {
+            tree->right = insertRoot(tree->right, key, val); 
+            tree = rotateLeft(tree);
+        }
+        return tree;
+    }
+
+    Node* insertRandom(Node *tree, int key, int val) 
+    {
+        if (tree == NULL)  {
+            return new Node(key,val);
+        }
+        if (randdouble()*(tree->N+1) < 1.0) // with probability 1/(N+1)
+            return insertRoot(tree, key, val);
+        if (tree->key==key) {
+            tree->key = key; tree->val = val;
+        } else if (key<tree->key) {
+            tree->left = insertRandom(tree->left, key, val);
+            tree->N = 1 + tree->left->N + size(tree->right);
+        } else {
+            tree->right = insertRandom(tree->right, key, val); 
+            tree->N = 1 + size(tree->left) + tree->right->N;
+        }
+        return tree;
+    }
+    int size(Node *tree) {return (tree == NULL) ? 0 : tree->N;}
+    int size() {return (root == NULL) ? 0 : root->N;}
+
+    void insert(int key, int val) {
+        root = insertRandom(root, key, val);
+    }
+
+    int search(int key) 
+    {
+        return searchAux(root, key);
+    }
+
+    int searchAux(Node *tree, int key) 
+    {
+        if (tree == NULL)
+            return 0;
+        if (tree->key==key)
+            return tree->val;
+        return (key < tree->key) ? searchAux(tree->left, key) : searchAux(tree->right, key);
+    }
+
+    void inorder(Node *tree)
+    {
+        if(tree==NULL) return;
+        inorder(tree->left);
+        cout<<tree->key<<" ";
+        inorder(tree->right);
+    }
+    int kth_smallest(Node *tree,int k)
+    {
+        if(tree==NULL)
+            return INT_MIN;
+        if(k==size(tree->left)+1)
+            return tree->key;
+        if(size(tree->left)>=k)
+            return kth_smallest(tree->left,k);
+
+        else
+            return kth_smallest(tree->right,k-size(tree->left)-1);
+    }
+    int kth_smallest(int k)
+    {
+        return kth_smallest(root,k);
+    }
+    Node* join(Node* X, Node *Y) {
+        if(X == NULL) return Y;
+        if(Y == NULL) return X;
+        if(randdouble()*(X->N + Y->N) < X->N) { // flip a weighted coin
+            X->right = join(X->right, Y);
+            X->N = 1 + size(X->left) + size(X->right);
+            return X;
+        } else {
+            Y->left = join(X, Y->left);
+            Y->N = 1 + size(Y->left) + size(Y->right);
+            return Y;
+        }
+    }
+    int remove(int key) {
+        root=searchThenRemove(root,key);
+    }
+    Node* searchThenRemove(Node *tree, int key) {
+        if (tree == NULL)
+            return NULL;
+        if (tree->key==key)
+        {
+            Node *left=tree->left;
+            Node *right=tree->right;
+            delete tree;
+            return join(left,right);
+        }
+        if(key < tree->key) {
+            tree->left=searchThenRemove(tree->left, key);
+            tree->N=size(tree->left)+size(tree->right)+1;
+            return tree;
+        }
+        else
+        {
+            tree->right=searchThenRemove(tree->right, key);
+            tree->N=size(tree->left)+size(tree->right)+1;
+            return tree;
+        }
+    }
+    int count_less_than(Node *tree,int key)
+    {
+        if(tree==NULL)
+            return 0;
+        if(tree->key>=key)
+        {
+            return count_less_than(tree->left,key);
+        }
+        else if(tree->key<key)
+        {
+            return size(tree->left)+(tree->key<key)+count_less_than(tree->right,key);
+        }
+        else return 0;
+    }
+    int count_less_than(int key)
+    {
+        return count_less_than(root,key);
+    }
+
+};
+endsnippet
 snippet heap "Heap Sort" !b
 void heapify(vector<int> &v,int i,int n)
 {
