@@ -1,3 +1,37 @@
+snippet compute_dearrangements "dearrangements" !b
+vector<long long> D;
+void compute_dearrangements()
+{
+    D.assign(MAXN,1);
+    D[1]=0;
+    for (ll i=2; i<MAXN; i++)
+        D[i]=((i-1)*(D[i-1]+D[i-2]))%mod;
+}
+endsnippet
+snippet compute_factorials "factorials" !b
+vector<long long> F;
+void compute_factorials()
+{
+    F.assign(MAXN,1);
+    for (ll i=2; i<MAXN; i++)
+        F[i]=(i*F[i-1])%mod;
+}
+endsnippet
+snippet compute_ncrs "ncrs" !b
+vector< vector<long long> > C;
+void compute_ncrs()
+{
+    C.assign(MAXN,vector<long long>(MAXN,0));
+    for(ll i=0;i<MAXN;i++)
+    {
+        for(ll k=0;k<=i;k++)
+            if(k==0||k==i)
+                C[i][k]=1;
+            else
+                C[i][k]=(C[i-1][k-1]+C[i-1][k])%mod;
+    }
+}
+endsnippet
 snippet randombst "Random bst" !b
 struct RandomBST{
 
