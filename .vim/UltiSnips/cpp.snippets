@@ -1,3 +1,47 @@
+snippet rollinghash "Rabin Karp Rolling hash string matching" !b
+int rollinghash(vector<ll> pattern,vector<ll> text)
+{
+    ll rhash1=0;
+    ll phash1=0;
+    ll rhash2=0;
+    ll phash2=0;
+    ll base1=31;
+    ll base2=29;
+    int N=text.size();
+    int K=pattern.size();
+    ll E1=modexp(base1,K-1);
+    ll E2=modexp(base2,K-1);
+    vector<ll> hash1(N-K+1);
+    vector<ll> hash2(N-K+1);
+    for(int i=0;i<K;i++)
+    {
+        rhash1=mod(rhash1*base1+text[i]);
+        phash1=mod(phash1*base1+pattern[i]);
+
+        rhash2=mod(rhash2*base2+text[i]);
+        phash2=mod(phash2*base2+pattern[i]);
+    }
+    hash1[0]=rhash1;
+    hash2[0]=rhash2;
+    for(int i=K;i<N;i++)
+    {
+        rhash1=mod(rhash1-mod((text[i-K])*E1));
+        rhash1=mod(rhash1*base1);
+        rhash1=mod(rhash1+(text[i]));
+        hash1[i-K+1]=rhash1;
+
+        rhash2=mod(rhash2-mod((text[i-K])*E2));
+        rhash2=mod(rhash2*base2);
+        rhash2=mod(rhash2+(text[i]));
+        hash2[i-K+1]=rhash2;
+    }
+
+    for(int i=0;i<=N-K;i++)
+        if(mod(hash1[i])==phash1&&mod(hash2[i])==phash2)
+            ans++;
+    return ans;
+}
+endsnippet
 snippet compute_dearrangements "dearrangements" !b
 vector<long long> D;
 void compute_dearrangements()
