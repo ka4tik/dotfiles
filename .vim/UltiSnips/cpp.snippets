@@ -1,3 +1,59 @@
+snippet knapsack "bounded knapsack problem" !b
+int knapsack(vector<int> &weights,vector<int> &values,int MAXW)
+{
+    vector<int> dp(MAXW+1,0);
+    dp[0]=0;
+    for(int i=0;i<values.size();i++)
+        for(int w=MAXW;w>=weights[i];w--)
+            dp[w]=max(dp[w],dp[w-weights[i]]+values[i]);
+
+    int ans=0;
+    for(int i=0;i<=MAXW;i++)
+        ans=max(ans,dp[i]);
+
+    return ans;
+}
+endsnippet
+snippet knapsack_unbounded "unbounded knapsack problem" !b
+int knapsack_unbounded(vector<int> &weights,vector<int> &values,int MAXW)
+{
+    vector<int> dp(MAXW+1,0);
+    dp[0]=0;
+    for(int i=0;i<values.size();i++)
+        for(int w=weights[i];w<=MAXW;w++)
+            dp[w]=max(dp[w],dp[w-weights[i]]+values[i]);
+
+    int ans=0;
+    for(int i=0;i<=MAXW;i++)
+        ans=max(ans,dp[i]);
+
+    return ans;
+}
+endsnippet
+snippet subsetsum "subset sum" !b
+vector<bool> subsetsum(vector<int> &v,int MAXW)
+{
+    vector<bool> m(MAXW,0);
+    m[0]=1;
+    for(int i=0;i<v.size();i++) 
+        for(int w=MAXW-1;w>=v[i];w--) 
+            m[w]=m[w]||m[w-v[i]];
+
+    return m;
+}
+endsnippet
+snippet subsetsum_unbounded "Unbounded subset sum" !b
+vector<bool> subsetsum_unbounded(vector<int> &v,int MAXW)
+{
+	vector<bool> m(MAXW,0);
+	m[0]=1;
+	for(int i=0;i<v.size();i++) 
+		for(int w=v[i];w<MAXW;w++) 
+				m[w]=m[w]||m[w-v[i]];
+
+	return m;
+}
+endsnippet
 snippet rollinghash "Rabin Karp Rolling hash string matching" !b
 ll get_mod(ll a)
 {
@@ -1860,18 +1916,6 @@ bool isprime(ll p, int iter)
     return true;
 }
 endsnippet
-snippet for "Description" !b
-for(int i=0;i<N;i++)
-{
-
-}
-endsnippet
-snippet test "Description" !b
-int T;scanf("%d",&T);
-while(T--)
-{
-
-endsnippet
 snippet split "split strings on spaces" !b
 vector<string> split(std::string const &input) { 
     stringstream buffer(input);
@@ -2874,4 +2918,22 @@ struct bigint {
         return res;
     }
 };
+endsnippet
+snippet	if "if block"
+if($1)
+{
+	${0:${VISUAL:}}
+}
+endsnippet
+snippet	while "while block"
+while($1)
+{
+	${0:${VISUAL:}}
+}
+endsnippet
+snippet	for "for block"
+for(int ${1:i=0};${2:i<n};${3:i++})
+{
+	${0:${VISUAL:}}
+}
 endsnippet
