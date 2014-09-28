@@ -743,15 +743,6 @@ const long double pi=M_PI;
 const long double e=2.71828182845904523536;
 const long double pi=3.14159265358979323;
 endsnippet
-snippet logfactorial "Sterling Approximation of Factorial" !b
-const double e=m_e;
-const double pi=m_pi;
-double log_basea_factorial(int n,int a)
-{
-    double ans=n*(log(n)-log(e))/log(a)+0.5*(log(2*pi)+log(n))/log(a);
-    return ans;
-}
-endsnippet
 snippet matrixexpo "Description" !b
 #define mod 1000000007
 typedef vector<int> vi;
@@ -1172,77 +1163,6 @@ int egcd(int a,int b,int &x,int &y)
     x=y1-(b/a)*x1;
     return d;
 }
-endsnippet
-snippet phifast "phifast" !b
-int totient[MAXN];
-vector<bool> mark(MAXN>>1);
-int lf[MAXN];
-int phi(int n)
-{
-    int ret=n;
-    for(int i=2;i*i<=n;i++)
-    {
-        if(n%i==0) ret-=ret/i;
-        while(n%i==0)
-            n/=i;
-    }
-    if(n>1)
-        ret-=ret/n;
-    return ret;
-}
-bool isprime(int n)
-{
-    if(n<2) return 0;
-    if(n==2) return 1;
-    if(!(n&1)) return 0;
-    else
-        return !mark[n>>1];
-}
-int phifast(int n)
-{
-    if(totient[n]) return totient[n];
-    if(n<=1) return 1;
-
-    if(isprime(n))
-        return totient[n]=n-1;
-
-    if(!(n&1))
-    {
-        int m=n>>1;
-        if((m&1))
-            return totient[n]=phifast(m);
-        else
-            return totient[n]=phifast(m)<<1;
-    }
-
-    int o=n/lf[n];
-    int m=lf[n];
-    int g=__gcd(m,o);
-
-    if(g==1)
-        return totient[n]=phifast(m)*phifast(o);
-    else
-        return totient[n]=phifast(m)*phifast(o)*g/phifast(g);
-
-}
-void sieve()
-{
-    int i;
-    for(i=3;i*i<MAXN;i+=2)
-    {
-        if(!mark[i>>1])
-        {
-            for(int j=i*i;j<MAXN;j+=2*i)
-            {
-                mark[j>>1]=1;	
-                lf[j]=i;
-
-            }
-        }
-    
-    }
-}
-
 endsnippet
 snippet isprime "Description" !b
 bool isprime(long long n) {
@@ -2306,10 +2226,9 @@ void sieve()
 }
 endsnippet
 snippet factorize "factorize" !b
-#define ii pair<ll,ll>
-vector<ii> factorize(ll x)
+vector<int> factorize(int x)
 {
-    vector<ii> ret;
+    vector<int> ret;
     for(ll i=2;i*i<=x;i++)
     {
         ll cnt=0;
@@ -2318,28 +2237,15 @@ vector<ii> factorize(ll x)
             x/=i;
             cnt++;
         }
-        if(cnt)
-            ret.push_back(ii(i,cnt));
+        while(cnt--)
+            ret.push_back(i)
     }
     if(x>1)
-        ret.push_back(ii(x,1));
-    return ret;
-}
-vector<int> factorize(int x)
-{
-    vector<int> ret;
-    for(int i=0;i<primes.size();i++)
-    {
-        while(x%primes[i]==0)
-        {
-            x/=primes[i];
-            ret.push_back(primes[i]);
-        }
-    }
+        ret.push_back(x);
     return ret;
 }
 endsnippet
-snippet tobinary "tobianary" !b
+snippet tobinary "tobinary" !b
 string tobinary(int x)
 {
     string ret;
