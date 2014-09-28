@@ -2023,21 +2023,19 @@ endsnippet
 snippet dj "Dijstras" !b
 multiset<ii> q;
 
-q.insert(ii(0,N));
-vector<int> d(N+2,INT_MAX);
-vector<int> visit(N+2,0);
-d[N]=0;
+q.insert(ii(0,0));
+vector<int> d(N,INT_MAX);
+vector<int> visit(N,0);
+d[0]=0;
 
 while(q.size()>0)
 {
 	ii c=*q.begin();
 	q.erase(q.begin());
-	if(c.second==N+1)
-		break;
 	if(visit[c.second]) continue;
 	visit[c.second]=1;
 
-	for(int i=0;i<N+2;i++)
+	for(int i=0;i<N;i++)
 	{
 		if(visit[i]) continue;
 		if(d[i]>c.first+dist(i,c.second))
