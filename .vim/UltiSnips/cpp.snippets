@@ -1299,27 +1299,32 @@ bool counter_clockwise(int x1,int y1,int x2,int y2,int x3,int y3)
 }
 endsnippet
 
-snippet prim "Prim's Algorithm for MST" !b
-    set<ii> q;
-    q.insert(ii(0,0));
+snippet prims "Prim's Algorithm for MST" !b
+ll prims(vector< vector<ii> > &g)
+{
     ll cost=0;
-
+    int n=g.size();
+    vector<bool> visit(n,false);
+    set<ii> q;
+    q.insert(ii(0,0));//cost,current
     while(q.size()>0)
     {
         ii c=*(q.begin());
         q.erase(q.begin());
         int u=c.second;
-        int cw=c.first;
         if(visit[u]) continue;
-        cost+=cw;
         visit[u]=1;
+
+        cost+=c.first;
         for(int i=0;i<g[u].size();i++)
         {
-            int v=g[u][i];
+            int v=g[u][i].first;
             if(visit[v]) continue;
-            q.insert(ii(w[u][i],v));
+            q.insert(ii(g[u][i].second,v));
         }
     }
+    return cost;
+}
 endsnippet
 snippet scc "Strongly Connected Components Kosaraju Algorithm" !b
 vector< vector<int> > g,gt;
@@ -2021,31 +2026,37 @@ snippet iii "iii" !b
 #define iii pair< int,pair<int,int> >
 endsnippet
 snippet dj "Dijstras" !b
-multiset<ii> q;
-
-q.insert(ii(0,0));
-vector<int> d(N,INT_MAX);
-vector<int> visit(N,0);
-d[0]=0;
-
-while(q.size()>0)
+vector<int> dijstra(vector< vector<ii> > &g,int source)
 {
-	ii c=*q.begin();
-	q.erase(q.begin());
-	if(visit[c.second]) continue;
-	visit[c.second]=1;
+    int n=g.size();
+    vector<int> d(n,INT_MAX);
+    vector<int> visit(n,0);
+    multiset<ii> q;
+    q.insert(ii(0,source));
+    d[source]=0;
 
-	for(int i=0;i<N;i++)
-	{
-		if(visit[i]) continue;
-		if(d[i]>c.first+dist(i,c.second))
-		{
-			d[i]=c.first+dist(i,c.second);
-			q.insert(ii(d[i],i));
-		}
+    while(q.size()>0)
+    {
+        ii c=*q.begin();
+        q.erase(q.begin());
+        int u=c.second;
+        if(visit[u]) continue;
+        visit[u]=1;
 
-	}
+        for(int i=0;i<g[u].size();i++)
+        {
+            int v=g[u][i].first;
+            int w=g[u][i].second;
+            if(visit[v]) continue;
+            if(d[v]>c.first+w)
+            {
+                d[v]=c.first+w;
+                q.insert(ii(d[v],v));
+            }
 
+        }
+    }
+    return d;
 }
 endsnippet
 snippet segtree "Segment Tree" !b
