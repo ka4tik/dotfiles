@@ -8,13 +8,12 @@ int main()
 {
     //freopen("in","r",stdin);
 
-    int N;
-    s(N);
-    vector<int> v(N);
-    for(int i=0;i<N;i++)
-    {
+    int n;
+    s(n);
+    vector<int> v(n);
+    for(int i=0;i<n;i++)
         s(v[i]);
-    }
+
 
     return 0;
 }
