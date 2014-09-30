@@ -1746,18 +1746,21 @@ struct debugger{template<typename T> debugger& operator,(const T& v){cerr<<v<<" 
 #define db(args...) do {cerr << #args << ": "; dbg,args; cerr << endl;} while(0)
 endsnippet
 snippet mulmod "Eutopian Multiplication" !b
-ll mulmod(ll a,ll b,ll c)
+inline ll mulmod(ll a,ll b,ll c)
 {
+    ll hh=LLONG_MAX/a;
+    if(hh>b)
+        return (a*b)%c;
     ll x=0,y=a%c;
     while(b>0)
     {
         if(b&1)
         {
             x=(x+y);
-            if(x>=c) x%=c;
+            if(x>=c) x-=c;
         }
         y=(y<<1);
-        if(y>=c) y%=c;
+        if(y>=c) y-=c;
         b=b>>1;
     }
     return x;
