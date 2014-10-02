@@ -8,8 +8,7 @@ int main()
 {
     //freopen("in","r",stdin);
 
-    int n;
-    s(n);
+    int n;s(n);
     vector<int> v(n);
     for(int i=0;i<n;i++)
         s(v[i]);
