@@ -1780,9 +1780,6 @@ endsnippet
 snippet mulmod "Eutopian Multiplication" !b
 inline ll mulmod(ll a,ll b,ll c)
 {
-    ll hh=LLONG_MAX/a;
-    if(hh>b)
-        return (a*b)%c;
     ll x=0,y=a%c;
     while(b>0)
     {
