@@ -1523,6 +1523,18 @@ snippet unique "Removes Duplicates From vector" !b
 sort($1.begin(),$1.end());
 $1.erase(unique($1.begin(),$1.end()),$1.end());
 endsnippet
+snippet sort "sorts a vector" !b
+sort($1.begin(),$1.end());
+endsnippet
+snippet reverse "reverses a vector" !b
+reverse($1.begin(),$1.end());
+endsnippet
+snippet min_element "min element of vector" !b
+int mn=*min_element($1.begin(),$1.end());
+endsnippet
+snippet max_element "max element of vector" !b
+int mx=*max_element($1.begin(),$1.end());
+endsnippet
 snippet gauss "Gaussian Elimination" !b
 #define EPS 1E-9
 int gauss (vector < vector<double> > a, vector<double> & ans) {
