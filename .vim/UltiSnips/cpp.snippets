@@ -2133,142 +2133,114 @@ vector<int> dijstra(vector< vector<ii> > &g,int source)
     return d;
 }
 endsnippet
-snippet segtree "Segment Tree" !b
-#define MAXN 111111
-struct node{
-    ll sum;
-    bool lazy;
-    ll add;
-    int l,r;
+snippet segtree "Segment Tree with lazy propagation" !b
+#define l(x) (2*x+1)
+#define r(x) (2*x+2)
+//segment tree with lazy propagation
+//query  - get sum of element b/w l and r
+//update - add v to all elements b/w l and r
+struct node 
+{
+    long long sum;
+    long long lazy;
+    int start,end;
+    inline void combine(const node &left, const node &right) 
+    {
+        sum=left.sum+right.sum;
+    }
+    inline void fix_and_propogate(node &left,node &right)
+    {
+        if(lazy)
+        {
+            sum=sum+((long long)(end-start+1))*lazy;
+            if(start!=end)
+            {
+                left.lazy+=lazy;
+                right.lazy+=lazy;
+            }
+            lazy=0;
+        }
+    }
     node()
     {
-        sum=0;lazy=0;add=0;
+        lazy=0;
+        sum=0;
     }
-    node(int a,int b,int c):
-        sum(a),lazy(b),add(c){}
 };
-vector<int> v;
-node tree[3*MAXN];
-void combine(node &c,node &a,node &b)
+struct segmentTree 
 {
-    c.sum=a.sum+b.sum;
-    c.lazy=0;
-    c.add=0;
-}
-void build(int index,int start,int end)
-{
-    tree[index].l=start;
-    tree[index].r=end;
-    if(start==end)
+    int n;
+    vector<int> v;
+    vector<node> T;
+    segmentTree(vector<int> _v) 
     {
-        tree[index].lazy=0;
-        tree[index].add=0;
-        tree[index].sum=v[start];
-        return;
+        v=_v;
+        n=v.size();
+        T.resize(4*n);
+        build(0,0,n-1);
     }
-    int mid=(start+end)>>1;
-    build(2*index,start,mid);
-    build(2*index+1,mid+1,end);
-
-    combine(tree[index],tree[2*index],tree[2*index+1]);
-}
-void fixnode(node &a)
-{
-    a.sum+=(ll)(a.r-a.l+1)*a.add;
-    a.add=0;
-    a.lazy=0;
-}
-void pushupdate(node &a,node &b,node &c)
-{
-    b.add+=a.add;
-    c.add+=a.add;
-    b.lazy=1;
-    c.lazy=1;
-}
-void update(int index,int start,int end,int p,int q,int value)
-{
-    if(tree[index].lazy)
+    segmentTree(int _n) 
     {
-        if(start!=end)
-            pushupdate(tree[index],tree[2*index],tree[2*index+1]);
-        fixnode(tree[index]);
-
+        v.assign(_n,0);
+        n=v.size();
+        T.resize(4*n);
+        build(0,0,n-1);
     }
-    if(start>end||start>q||end<p)
-        return;
-    if(start>=p&&q>=end)
+    void build(int x, int l, int r) 
     {
-        tree[index].add=value;
-        if(start!=end)
+        T[x].start=l;
+        T[x].end=r;
+        if(l==r)
         {
-            pushupdate(tree[index],tree[2*index],tree[2*index+1]);
+            T[x].sum=v[l];
+            return;
         }
-        fixnode(tree[index]);
-        return;
+        int m=(l+r)>>1;
+        build(l(x),l,m);
+        build(r(x),m+1,r);
+        T[x].combine(T[l(x)],T[r(x)]);
     }
-    int mid=(start+end)>>1;
 
-    update(2*index,start,mid,p,q,value);
-    update(2*index+1,mid+1,end,p,q,value);
-
-    combine(tree[index],tree[2*index],tree[2*index+1]);
-
-}
-node query(int index,int start,int end,int p,int q)
-{
-
-    if(tree[index].lazy)
+    void update(int x,int l,int r,int p,int q,int v)
     {
-        if(start!=end)
-            pushupdate(tree[index],tree[2*index],tree[2*index+1]);
-        fixnode(tree[index]);
-    }
-    if(start>=p&&end<=q)
-    {
-        return tree[index];
-    }
-    int mid=(start+end)>>1;
-
-    if(q<=mid)
-        return query(2*index,start,mid,p,q);
-    else if(p>mid)
-        return query(2*index+1,mid+1,end,p,q);
-
-    node q1=query(2*index,start,mid,p,q);
-    node q2=query(2*index+1,mid+1,end,p,q);
-    node ret;
-    combine(ret,q1,q2);
-    return ret;
-
-}
-int main()
-{
-    freopen("in","r",stdin);
-
-    int N,q;
-    s(N);
-    v.resize(N,0);
-    build(1,0,N-1);
-    s(q);
-    while(q--)
-    {
-        int t;s(t);
-        if(!t)
+        T[x].fix_and_propogate(T[l(x)],T[r(x)]);
+        if(l>r||l>q||r<p)return;
+        if(l>=p&&r<=q)
         {
-            int a,b,c;s(a);s(b);s(c);a--;b--;
-            update(1,0,N-1,a,b,c);
+            T[x].lazy=v;
+            T[x].fix_and_propogate(T[l(x)],T[r(x)]);
+            return;
         }
-        else
-        {
-            int a,b;s(a);s(b);a--;b--;
-            int ans=query(1,0,N-1,a,b);
-            printf("%d\n",ans);
-        }
+        int m=(l+r)>>1;
+        update(l(x),l,m,p,q,v);
+        update(r(x),m+1,r,p,q,v);
+        T[x].combine(T[l(x)],T[r(x)]);
     }
 
+    node query(int x, int l, int r, int p, int q) 
+    {
+        T[x].fix_and_propogate(T[l(x)],T[r(x)]);
+        if(l>=p && r<=q) return T[x];
+        int m=(l+r)>>1;
+        if(q<=m)
+            return query(l(x),l,m,p,q);
+        if(p>m)
+            return query(r(x),m+1,r,p,q);
+        node ret;
+        ret.combine(query(l(x),l,m,p,q), query(r(x),m+1,r,p,q));
+        return ret;
+    }
 
-    return 0;
-}
+    void update(int l,int r,int v)
+    {
+        update(0,0,n-1,l,r,v);
+    }
+
+    node query(int l,int r) 
+    {
+        return query(0,0,n-1,l,r);
+    }
+};
 endsnippet
 snippet sieveip "sieve is prime " !b
 bool isprime(int n)
