@@ -1228,9 +1228,10 @@ snippet rmq "Range Min Query" !b
 #define r(x) (2*x+2)
 struct node 
 {
-    int mn;
+    int mn,mx;
     inline void combine(const node &left, const node &right) {
         mn=min(left.mn,right.mn);
+        mx=max(left.mx,right.mx);
     }
 };
 struct segmentTree 
@@ -1245,12 +1246,19 @@ struct segmentTree
         T.resize(4*n);
         build(0,0,n-1);
     }
-
+    segmentTree(int _n) 
+    {
+        v.assign(_n,0);
+        n=v.size();
+        T.resize(4*n);
+        build(0,0,n-1);
+    }
     void build(int x, int l, int r) 
     {
         if(l==r)
         {
             T[x].mn=v[l];
+            T[x].mx=v[l];
             return;
         }
         int m=(l+r)>>1;
@@ -1264,6 +1272,7 @@ struct segmentTree
         if(l==r) 
         {
             T[x].mn=v;
+            T[x].mx=v;
             return;
         }
         int m=(l+r)>>1;
