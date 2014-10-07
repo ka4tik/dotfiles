@@ -1520,8 +1520,8 @@ vector<int> get_nth(int n,int k)
 }
 endsnippet
 snippet unique "Removes Duplicates From vector" !b
-sort(v.begin(),v.end());
-v.erase(unique(v.begin(),v.end()),v.end());
+sort($1.begin(),$1.end());
+$1.erase(unique($1.begin(),$1.end()),$1.end());
 endsnippet
 snippet gauss "Gaussian Elimination" !b
 #define EPS 1E-9
