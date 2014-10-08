@@ -1713,12 +1713,6 @@ struct DisjointSet {
         root = new int[sz+1];
         rank = new int[sz+1];
         n = sz;
-    }
-    ~DisjointSet() {
-        delete[] root;
-        delete[] rank;
-    }
-    void init() {
         for(int i = 1; i <= n; i++) {
             root[i] = i;
             rank[i] = 0;

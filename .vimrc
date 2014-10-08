@@ -19,6 +19,7 @@ Plugin 'flazz/vim-colorschemes'
 Plugin 'Lokaltog/vim-powerline'
 Plugin 'sjl/gundo.vim'
 Plugin 'tomasr/molokai'
+Plugin 'tpope/vim-fugitive'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
