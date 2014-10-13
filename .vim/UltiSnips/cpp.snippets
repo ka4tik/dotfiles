@@ -2093,8 +2093,8 @@ endsnippet
 snippet iii "iii" !b
 #define iii pair< int,pair<int,int> >
 endsnippet
-snippet dj "Dijstras" !b
-vector<int> dijstra(vector< vector<ii> > &g,int source)
+snippet dj "Dijstras shortest path algorithm" !b
+vector<int> dj(vector< vector<ii> > &g,int source)
 {
     int n=g.size();
     vector<int> d(n,INT_MAX);
@@ -2962,5 +2962,27 @@ vector< vector<int> > factorize_all(int maxn)
         }
     }
     return factors;
+}
+endsnippet
+snippet ispalin "check if string is palindrome"
+bool ispalin(string str)
+{
+    int l=0,r=str.size()-1;
+    while(r>=0&&str[l]==str[r])
+        l++,r--;
+    return r<0;
+}
+endsnippet
+snippet floyd "floyd warshall all pair shortest paths"
+vector< vector<int> > floyd(vector< vector<int> > &g)
+{
+    int n=g.size();
+    vector< vector<int> > d=g;
+    for(int k=0;k<n;k++)
+        for(int i=0;i<n;i++)
+            for(int j=0;j<n;j++)
+                if(d[i][k]!=INT_MAX&&d[k][j]!=INT_MAX)
+                    d[i][j]=min(d[i][j],d[i][k]+d[k][j]);
+    return d;
 }
 endsnippet
