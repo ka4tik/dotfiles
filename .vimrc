@@ -68,5 +68,13 @@ au BufWinLeave * mkview
 au BufWinEnter * silent loadview
 augroup CplusplusCmds
     " compile c++ without SingleCompile Plugin
-    "autocmd FileType cpp nnoremap <F9> :!g++ % && ./a.out <cr>
+    "autocmd FileType cpp nnoremap <buffer> <F9> :!g++ % && ./a.out <cr>
+
+    "replace int with long long in a cpp file
+    function! ReplaceIntWithLL()
+        %s/int /long long /g
+        %s/long long main/int main/g
+    endfunction
+
+    command! Makell :call ReplaceIntWithLL()
 augroup END
