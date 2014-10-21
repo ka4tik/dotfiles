@@ -1361,10 +1361,10 @@ bool counter_clockwise(int x1,int y1,int x2,int y2,int x3,int y3)
 }
 endsnippet
 
-snippet prims "Prim's Algorithm for MST" !b
-ll prims(vector< vector<ii> > &g)
+snippet prims "Prim's Algorithm for MST E*log(E)" !b
+long long prims(vector< vector<ii> > &g)
 {
-    ll cost=0;
+    long long cost=0;
     int n=g.size();
     vector<bool> visit(n,false);
     set<ii> q;
@@ -1384,6 +1384,39 @@ ll prims(vector< vector<ii> > &g)
             if(visit[v]) continue;
             q.insert(ii(g[u][i].second,v));
         }
+    }
+    return cost;
+}
+endsnippet
+snippet primsadj "Prim's Algorithm for MST O(n^2)" !b
+//prims implementation exactly O(n^2) for dense graphs
+long long primsadj(vector< vector<int> > &g)
+{
+    int n=g.size();
+    vector<bool> visit(n,false);
+    vector<int> parent(n,0);
+    vector<int> dist(n,INT_MAX);
+
+    for(int i=0;i<n;i++)
+        dist[i]=g[0][i];
+    visit[0]=1;
+
+    long long cost=0;
+    for(int i=0;i<n-1;i++)
+    {
+        pair<int,int> best=make_pair(INT_MAX,-1);
+        for(int j=0;j<n;j++)
+            if(!visit[j])
+                best=min(best,make_pair(dist[j],j));
+
+        int j=best.second;
+        visit[j]=true;
+        cost+=g[parent[j]][j];
+
+        for(int k=0;k<n;k++)
+            if(dist[k]>g[j][k])
+                dist[k]=g[j][k],
+                    parent[k]=j;
     }
     return cost;
 }
