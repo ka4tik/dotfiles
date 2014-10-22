@@ -660,7 +660,6 @@ iiiii getMaximumRectangleofONES()
     return iiiii(maxarea,x1,y1,x2,y2);
 }
 endsnippet
-
 snippet rankgauss "Rank of a matrix using gauss jordon" !b
 int rank(int M, int N, vector< vector<int> > a, vector<int> b, int p) {
     // M equations, N variables, modulo p
@@ -1002,7 +1001,6 @@ void suffix()
     cout<<endl;
 }
 endsnippet
-
 snippet fordadj "Ford Fukerson for large graphs" !b
 struct edge {
     int a, b, cap, flow;
@@ -1057,7 +1055,6 @@ int maxflow()
     return flow;
 }
 endsnippet
-
 snippet fordmatrix "Ford Fukkerson Maxflow using Capicty Matrix" !b
 #define INF INT_MAX 
 int cap[MAXN][MAXN];
@@ -1100,7 +1097,6 @@ int maxflow()
     return flow;
 }
 endsnippet
-
 snippet dinic "Description" !b
 const int INF = INT_MAX;
 int n, c[MAXN][MAXN], f[MAXN][MAXN], s, t, d[MAXN], ptr[MAXN], q[MAXN];
@@ -1341,7 +1337,6 @@ int LNDS(vector<int> A)
     return s.size();
 }
 endsnippet
-
 snippet triarea "" !b
 int tri_area2(int x1,int y1,int x2,int y2,int x3,int y3)
 {
@@ -1360,7 +1355,6 @@ bool counter_clockwise(int x1,int y1,int x2,int y2,int x3,int y3)
     return tri_area2(x1,y1,x2,y2,x3,y3)>0;
 }
 endsnippet
-
 snippet prims "Prim's Algorithm for MST E*log(E)" !b
 long long prims(vector< vector<ii> > &g)
 {
