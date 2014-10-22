@@ -28,6 +28,7 @@ noremap <leader>i :!gedit in<CR>
 noremap <leader>s :call UltiSnips_ListSnippets()<CR>
 nnoremap nkl :0r ~/template.cpp<CR>
 inoremap kj <Esc>
+nnoremap <Space> za
 nmap <F9> :SCCompileRun<cr>
 nmap \q :nohlsearch<CR>
 
@@ -61,6 +62,7 @@ set backspace=indent,eol,start
 set noswapfile
 set nobackup
 set nowritebackup
+set clipboard=unnamedplus "tells vim to use system clipboard as defualt registe
 if exists("+undofile")
   " undofile - This allows you to use undos after exiting and restarting
   " This, like swap and backups, uses ~/.vim/undo
