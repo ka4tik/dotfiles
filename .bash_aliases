@@ -6,6 +6,7 @@ alias c='clear'
 alias bc='bc -l'
 alias h='history'
 alias wget="wget -c"
+alias tmux="tmux -2"
 # zipf: to create a ZIP archive of a file or folder
 zipf () { zip -r "$1".zip "$1" ; }
 alias aliases='vim ~/.bash_aliases;reload'
