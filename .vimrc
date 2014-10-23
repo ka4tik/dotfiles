@@ -23,10 +23,6 @@ noremap <F5> :GundoToggle<CR>
 noremap <F6> :UltiSnipsEdit<CR>
 noremap <F7> :vsp ~/.vimrc<CR>
 noremap <F8> :source $MYVIMRC<CR>
-noremap <leader>g :!gedit %<CR>
-noremap <leader>i :!gedit in<CR>
-noremap <leader>s :call UltiSnips_ListSnippets()<CR>
-nnoremap nkl :0r ~/template.cpp<CR>
 inoremap kj <Esc>
 nnoremap <Space> za
 nmap <F9> :SCCompileRun<cr>
@@ -88,5 +84,16 @@ augroup CplusplusCmds
         %s/long long main/int main/g
     endfunction
 
+    "makes a file in and copies current clipboard content into it"
+    function! MakeInputFile()
+        vsp in 
+        normal gg"_dG
+        normal P
+        w
+        quit
+    endfunction
+
+    nnoremap nkl :0r ~/template.cpp<CR>
+    noremap <leader>i :call MakeInputFile()<CR>
     command! Makell :call ReplaceIntWithLL()
 augroup END
