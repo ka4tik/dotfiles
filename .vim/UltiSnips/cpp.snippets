@@ -814,6 +814,31 @@ int fibo(int n)
     return T[0][0];
 }
 endsnippet
+snippet fibo "fibonacci number log(n) without matrix expo" !b
+#define mod 1000000007
+map<long long ,long long> saved;
+long long fibo(long long n)
+{
+    if(n<=1)
+        return 1;
+    if(saved[n])
+        return saved[n];
+    long long ans=0;
+    if(!(n&1))
+    {
+        ans+=fibo(n/2-1)*fibo(n/2-1);
+        ans+=fibo(n/2)*fibo(n/2);
+    }
+    else
+    {
+        ans+=fibo(n/2-1)*fibo(n/2);
+        ans+=fibo(n/2)*fibo(n/2+1);
+    }
+    if(ans>=mod) ans%=mod;
+    saved[n]=ans;
+    return ans;
+}
+endsnippet
 snippet bpm "Bipartite Matching" !b
 vector<int> visit;
 vector<int> match;
@@ -3022,5 +3047,28 @@ void make_sums(vector< vector<int> > &a)
 }
 int get_submatrix_sum(int x1,int y1,int x2,int y2){
 	return sums[x2][y2]-(y1-1>=0?sums[x2][y1-1]:0)-(x1-1>=0?sums[x1-1][y2]:0)+((x1-1>=0&&y1-1>=0)?sums[x1-1][y1-1]:0);
+}
+endsnippet
+snippet hash "implementation of java hashCode()"
+unsigned int hash(const std::string& s)
+{
+    unsigned int base = 31;
+    unsigned int hash = 0;
+    for(unsigned int i=0;i<s.size();i++)
+        hash = hash * base + s[i];
+    return hash;
+}
+endsnippet
+snippet hashfnv "Fnv hash function"
+unsigned int hashfnv(const std::string& s)
+{
+    unsigned int FNV_32_PRIME = 0x01000193;
+    unsigned int hash=0;
+    for(unsigned int i=0;i<s.size();i++)
+    {
+        hash *= FNV_32_PRIME;
+        hash ^= (unsigned int)s[i];
+    }
+    return hash;
 }
 endsnippet

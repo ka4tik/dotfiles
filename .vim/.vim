@@ -1,0 +1,1 @@
+/home/ka4tik/dotfiles/.vim
