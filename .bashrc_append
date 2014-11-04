@@ -1,0 +1,4 @@
+HISTSIZE=5000
+HISTFILESIZE=50000
+HISTTIMEFORMAT="%d-%m-%y %T "
+HISTIGNORE="&:ls:cd:exit:history:clear"
