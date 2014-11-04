@@ -59,6 +59,7 @@ set noswapfile
 set nobackup
 set nowritebackup
 set clipboard=unnamedplus "tells vim to use system clipboard as defualt registe
+set autoread " reload files (no local changes)
 if exists("+undofile")
   " undofile - This allows you to use undos after exiting and restarting
   " This, like swap and backups, uses ~/.vim/undo
@@ -82,6 +83,7 @@ augroup CplusplusCmds
     function! ReplaceIntWithLL()
         %s/int /long long /g
         %s/long long main/int main/g
+        %s/<int>/<long long>/g
     endfunction
 
     "makes a file in and copies current clipboard content into it"
