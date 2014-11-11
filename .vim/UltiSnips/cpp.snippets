@@ -1679,85 +1679,6 @@ vector<int> kmp_table(string pattern)
     return T;
 }
 endsnippet
-snippet gentree  "Genrate Random Tree" !b
-#define ii pair<int,int>
-struct DisjointSet {
-    int *root, *rank, n;
-    DisjointSet(int sz) {
-        root = new int[sz+1];
-        rank = new int[sz+1];
-        n = sz;
-    }
-    ~DisjointSet() {
-        delete[] root;
-        delete[] rank;
-    }
-    void init() {
-        for(int i = 1; i <= n; i++) {
-            root[i] = i;
-            rank[i] = 0;
-        }
-    }
-    int find(int u) {
-        if(u != root[u]) root[u] = find(root[u]);
-        return root[u];
-    }
-    void merge(int u, int v) {
-        int pu = find(u);
-        int pv = find(v);
-        if(rank[pu] > rank[pv]) root[pv] = pu;
-        else root[pu] = pv;
-        if(rank[pu]==rank[pv]) rank[pv]++;
-    }
-};
-void gentree()
-{
-    ofstream file;
-    file.open("in");
-    int n=5;
-    DisjointSet ds(n);
-    ds.init();
-    int q;
-    q=5;
-    file<<n<<" "<<q<<endl;
-    vector<ii> edges;
-    while(edges.size()<n-1)
-    {
-        int a=(rand()%n)+1;
-        int b=(rand()%n)+1;
-        if(a==b) continue;
-        if(ds.find(a)!=ds.find(b))
-        {
-            if(find(edges.begin(),edges.end(),ii(a,b))==edges.end()&&
-                    find(edges.begin(),edges.end(),ii(b,a))==edges.end()    )
-            {
-                ds.merge(a,b);
-                edges.push_back(ii(a,b));
-            }
-        }
-    }
-    for(int i=0;i<n;i++)
-    {
-        file<<rand()%10<<" ";
-    }
-    file<<endl;
-    for(int i=0;i<edges.size();i++)
-    {
-        file<<edges[i].first<< " "<<edges[i].second<<endl;
-    }
-    //file<<endl;
-    for(int i=0;i<q;i++)
-    {
-        if(rand()&1)
-        {
-            file<<"U "<<(rand()%n)+1<<" "<<(rand()%n)+1<<endl;
-        }
-        else
-            file<<"Q "<<(rand()%n)+1<<endl;
-    }
-    file.close();
-}
-endsnippet
 snippet dset "Union-Find DS" !b
 struct DisjointSet {
     int *root, *rank, n;
@@ -3070,5 +2991,85 @@ unsigned int hashfnv(const std::string& s)
         hash ^= (unsigned int)s[i];
     }
     return hash;
+}
+endsnippet
+snippet randomUndirectedGraph "Generates a random Undirected graph with given parameters"
+void randomUndirectedGraph(int nodes,int edges,bool must_be_connected,bool print,bool dot_file)
+{
+    vector< vector<bool> > adjm(nodes,vector<bool>(nodes,false));
+
+    assert(edges<=nodes*(nodes-1)/2);
+
+    vector<int> nodes_list ;
+    for (int i=0;i<nodes;i++) {
+        nodes_list.push_back(i);
+    }
+
+    if(must_be_connected) 
+    {
+        assert(edges>=nodes-1);
+
+        random_shuffle(nodes_list.begin(),nodes_list.end());
+
+        for (int i=1;i<nodes;i++) 
+        {
+            int partner = nodes_list[(rand()%i)];
+            adjm[nodes_list[i]][partner] = true;
+            adjm[partner][nodes_list[i]] = true;
+            --edges;
+        }
+
+    }
+
+    vector< pair<int,int> >  not_edges_list;
+
+    for(int i=0; i<nodes; i++)
+        for(int j=i+1; j< nodes; j++) 
+            if(!adjm[i][j]) 
+                not_edges_list.push_back(pair<int,int>(i,j));
+
+    random_shuffle(not_edges_list.begin(),not_edges_list.end());
+
+    for(int i=0; i<edges; i++) 
+    {
+        adjm[not_edges_list[i].first][not_edges_list[i].second]=true;
+        adjm[not_edges_list[i].second][not_edges_list[i].first]=true;
+    }
+
+    vector< vector<int> > adj_list(nodes,vector<int>());
+    vector< pair<int,int> > edges_list;
+
+    for(int i=0; i<nodes; i++)
+        for(int j=0; j< nodes; j++) 
+        {
+            if(adjm[i][j])
+                adj_list[i].push_back(j);
+        }
+    for(int i=0; i<nodes; i++)
+        for(int j=i+1; j< nodes; j++) 
+            if(adjm[i][j]) 
+                edges_list.push_back(pair<int,int>(i,j));
+    if(print)
+    {
+        ofstream file;
+        file.open("in");
+        file<<adj_list.size()<<" "<<edges_list.size()<<endl;
+        for(int i=0;i<edges_list.size();i++)
+        {
+            file<<edges_list[i].first+1<< " "<<edges_list[i].second+1<<endl;
+        }
+    }
+    if(dot_file)
+    {
+        ofstream file;
+        file.open("graph.dot");
+        file<<"graph A {"<<endl;
+        for(int i=0;i<edges_list.size();i++)
+        {
+            file<<edges_list[i].first+1<< "--"<<edges_list[i].second+1<<";"<<endl;
+        }
+        file<<"}"<<endl;
+    }
+
 }
 endsnippet
