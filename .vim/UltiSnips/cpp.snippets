@@ -3073,3 +3073,77 @@ void randomUndirectedGraph(int nodes,int edges,bool must_be_connected,bool print
 
 }
 endsnippet
+snippet lca "Longest Common Ancester" !b
+struct lca{
+    int n;vector<int> l, d;vector<vector<int> > p;
+    lca(vector<int> & dad, vector<int> & level){
+        n = dad.size();d = dad, l = level;int log = 1,base = 1;
+        while(base < n) log++, base <<= 1;
+        p.resize(n, vector<int>(log, -1));
+        for (int i = 0; i < n; i++) p[i][0] = d[i];
+        for (int j = 1; 1 << j < n; j++)
+            for (int i = 0; i < n; i++)
+                if (p[i][j - 1] != -1) p[i][j] = p[p[i][j - 1]][j - 1];
+    }
+    int query(int p, int q){
+        int tmp, log, i;
+        if (l[p] < l[q]) tmp = p, p = q, q = tmp;
+        for (log = 1; 1 << log <= l[p]; log++);log--;
+        for (i = log; i >= 0; i--)
+            if (l[p] - (1 << i) >= l[q]) p = p[p][i];
+        if (p == q) return p;
+        for (i = log; i >= 0; i--)
+            if (p[p][i] != -1 && p[p][i] != p[q][i]) p = p[p][i], q = p[q][i];
+        return d[p];
+    }
+};
+endsnippet
+snippet bridges "Bridges and Articulation Point" !b
+int ttime=0,visit[MAXN],low[MAXN],disc[MAXN],parent[MAXN];
+vector<int> g[MAXN];vector<ii> bridges;
+void dfs(int u){
+    ttime++;int children=0;visit[u]=1;disc[u]=low[u]=ttime; 
+    for(int i=0;i<g[u].size();i++){
+        int v=g[u][i];
+        if(!visit[v]){
+            children++;parent[v]=u;dfs(v);low[u]=min(low[u],low[v]);
+            if(low[v]>disc[u]) bridges.push_back(ii(v,u));        
+        }
+        else if(v!=parent[u]) low[u]=min(low[u],disc[v]);
+    }
+}
+vector<int> g[MAXN];
+bool used[MAXN];int timer, tin[MAXN], fup[MAXN];
+void dfs (int v, int p = -1) {
+    used[v] = true;tin[v] = fup[v] = timer++;int children = 0;
+    for (size_t i=0; i<g[v].size(); ++i) {
+        int to = g[v][i];if (to == p)  continue;
+        if (used[to]) fup[v] = min (fup[v], tin[to]);
+        else {
+            dfs (to, v);fup[v] = min (fup[v], fup[to]);
+            if (fup[to] >= tin[v] && p != -1) IS_CUTPOINT(v);++children;
+        }
+    }
+    if (p == -1 && children > 1)IS_CUTPOINT(v);
+}
+endsnippet
+snippet convexhull "Convex Hull" !b
+typedef pair<long, long> point;
+bool cw(const point &a, const point &b, const point &c) {
+    return (b.first - a.first) * (c.second - a.second) - (b.second - a.second) * (c.first - a.first) < 0;}
+    vector<point> convexHull(vector<point> p) {
+        int n = p.size();if (n <= 1)return p;       
+        sort(p.begin(), p.end());  int cnt = 0;
+        vector<point> q(n * 2);
+        for (int i = 0; i < n; q[cnt++] = p[i++])
+            for (; cnt >= 2 && !cw(q[cnt - 2], q[cnt - 1], p[i]); --cnt);
+        for (int i = n - 2, t = cnt; i >= 0; q[cnt++] = p[i--])
+            for (; cnt > t && !cw(q[cnt - 2], q[cnt - 1], p[i]); --cnt);      
+        q.resize(cnt - 1 - (q[0] == q[1]));
+        return q;
+    }
+int main() {
+    vector<point> points(4);points[0] = point(0, 0);points[1] = point(3, 0);
+    vector<point> hull = convexHull(points);
+}
+endsnippet
