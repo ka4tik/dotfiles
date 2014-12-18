@@ -95,7 +95,12 @@ augroup CplusplusCmds
         quit
     endfunction
 
+    function! DeleteBlankLines()
+        g/^$/d
+    endfunction
+
     nnoremap nkl :0r ~/template.cpp<CR>
     noremap <leader>i :call MakeInputFile()<CR>
     command! Makell :call ReplaceIntWithLL()
+    command! DeleteBlanks :call DeleteBlankLines()
 augroup END
