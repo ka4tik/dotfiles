@@ -1,0 +1,4 @@
+set number smartindent clipboard=unnamedplus
+nnoremap nkl :0r ~/template.cpp<CR>
+nnoremap <F9> :<C-U>make %:r && ./%:r<CR>
+inoremap kj <Esc>
