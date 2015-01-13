@@ -1,4 +1,5 @@
 sudo apt-get install git
+sudo apt-get install cowsay
 git clone https://github.com/ka4tik/dotfiles.git
 sudo apt-get install vim-gnome
 mv ~/.vimrc ~/.vimrc.old
