@@ -352,17 +352,17 @@ endsnippet
 snippet kmp "Kmp Algorithm for string matching" !b
 vector<int> kmp_table(string pattern)
 {
-    int pos=1;
-    int candidate=0;
+    int m=1;
+    int i=0;
     vector<int> T(pattern.length());
     T[0]=0;
-    while(pos<pattern.length())
-        if(pattern[pos]==pattern[candidate])
-            candidate++,T[pos]=candidate,pos++;
-        else if(candidate>0)
-            candidate=T[candidate-1];
+    while(m<pattern.length())
+        if(pattern[m]==pattern[i])
+            i++,T[m]=i,m++;
+        else if(i>0)
+            i=T[i-1];
         else  
-            T[pos]=0,pos++;
+            T[m]=0,m++;
     return T;
 }
 vector<int> kmp_search(string pattern,string str)
@@ -1665,17 +1665,17 @@ endsnippet
 snippet lcp "Longest Common Prefix-Suffix" !b
 vector<int> kmp_table(string pattern)
 {
-    int pos=1;
-    int candidate=0;
+    int m=1;
+    int i=0;
     vector<int> T(pattern.length());
     T[0]=0;
-    while(pos<pattern.length())
-        if(pattern[pos]==pattern[candidate])
-            candidate++,T[pos]=candidate,pos++;
-        else if(candidate>0)
-            candidate=T[candidate-1];
+    while(m<pattern.length())
+        if(pattern[m]==pattern[i])
+            i++,T[m]=i,m++;
+        else if(i>0)
+            i=T[i-1];
         else  
-            T[pos]=0,pos++;
+            T[m]=0,m++;
     return T;
 }
 endsnippet
