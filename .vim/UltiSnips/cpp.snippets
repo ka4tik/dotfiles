@@ -349,6 +349,35 @@ void heap_sort(vector<int> &v)
     }
 }
 endsnippet
+snippet lmsr "Lexicographically minimal string rotatation by Booth's algorithm" !b
+//Booth's algorithm
+//The idea is to find the minimal string rotation in S[1..j] in increasing order of j. Let k be the starting position of the minimal string rotation in S[1..j]. Let i be the length of the longest suffix of S[1..j] satisfies S[k..k+i-1] = S[j–i+1..j]. If S[j+1] < S[k+i], then it means S[j–i+1..j+1] is smaller than S[k..k+i] and hence j–i+1 is the starting position of the minimal string rotation in S[1..j+1]. Since the length of the longest suffix equals the prefix of S[k..k+n] can be computed in a way similar KMP in linear time, the total complexity is linear.
+int lexicographically_minimal_string_rotation(string S)
+{
+    S += S;     // Concatenate string to self to avoid modular arithmetic
+    vector<int> f(S.size(),-1);     // Failure function
+    int k = 0;       // Least rotation of string found so far
+    for(int j=1;j<S.size();j++)
+    {
+        int i = f[j-k-1];
+        while (i != -1 && S[j] != S[k+i+1])
+        {
+            if(S[j] < S[k+i+1])
+                k = j-i-1;
+            i = f[i];
+        }
+        if(i == -1 && S[j] != S[k+i+1])
+        {
+            if(S[j] < S[k+i+1])
+                k = j;
+            f[j-k] = -1;
+        }
+        else
+            f[j-k] = i+1;
+    }
+    return k;
+}
+endsnippet
 snippet kmp "Kmp Algorithm for string matching" !b
 vector<int> kmp_table(string pattern)
 {
