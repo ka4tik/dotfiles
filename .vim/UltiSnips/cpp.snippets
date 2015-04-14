@@ -3176,3 +3176,80 @@ int main() {
     vector<point> hull = convexHull(points);
 }
 endsnippet
+snippet treap "Treap" !b
+struct treap{
+	typedef struct _node{
+		int key;
+		int prior;
+		int cnt;
+		_node* l;
+		_node* r;
+		_node(int key) :key(key) { prior = (rand() << 16) | rand(); l = 0; r = 0; cnt = 1; }
+		void recalc() {
+			cnt = 1 + Cnt(l) + Cnt(r);
+		}
+	}*node;
+
+	static int Cnt(node v) {
+		if (!v)
+			return 0;
+		return v->cnt;
+	}
+
+	node root;
+
+	size_t Size;
+
+	node merge(node l, node r) {
+		if (!l)
+			return r;
+		if (!r)
+			return l;
+		if (l->prior < r->prior) {
+			l->r = merge(l->r, r);
+			l->recalc();
+			return l;
+		}
+		else {
+			r->l = merge(l, r->l);
+			r->recalc();
+			return r;
+		}
+	}
+
+	void split(node v, int key, node& l, node& r) {
+		l = r = 0;
+		if (!v)
+			return;
+		if (v->key < key) {
+			l = v;
+			split(l->r, key, l->r, r);
+			l->recalc();
+		}
+		else {
+			r = v;
+			split(r->l, key, l, r->l);
+			r->recalc();
+		}
+	}
+
+	treap() {
+		root = 0;
+	}
+
+	void insert(int key) {
+		node l, r;
+		split(root, key, l, r);
+		root = merge(l, merge(new _node(key), r));
+	}
+
+	int getVal(int key) {
+		node l, r;
+		split(root, key, l, r);
+		int res = Cnt(r);
+		root = merge(l, r);
+		return res;
+	}
+
+};
+endsnippet
