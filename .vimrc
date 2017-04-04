@@ -15,6 +15,7 @@ Plugin 'Lokaltog/vim-powerline'
 Plugin 'sjl/gundo.vim'
 Plugin 'tomasr/molokai'
 Plugin 'tpope/vim-fugitive'
+Plugin 'chrisbra/csv.vim'
 
 call vundle#end()           
 filetype plugin indent on   
@@ -75,32 +76,3 @@ endif
 " Remember folds
 au BufWinLeave * mkview
 au BufWinEnter * silent loadview
-augroup CplusplusCmds
-    " compile c++ without SingleCompile Plugin
-    "autocmd FileType cpp nnoremap <buffer> <F9> :!g++ % && ./a.out <cr>
-
-    "replace int with long long in a cpp file
-    function! ReplaceIntWithLL()
-        %s/int /long long /g
-        %s/long long main/int main/g
-        %s/<int>/<long long>/g
-    endfunction
-
-    "makes a file in and copies current clipboard content into it"
-    function! MakeInputFile()
-        vsp in 
-        normal gg"_dG
-        normal P
-        w
-        quit
-    endfunction
-
-    function! DeleteBlankLines()
-        g/^$/d
-    endfunction
-
-    nnoremap nkl :0r ~/template.cpp<CR>
-    noremap <leader>i :call MakeInputFile()<CR>
-    command! Makell :call ReplaceIntWithLL()
-    command! DeleteBlanks :call DeleteBlankLines()
-augroup END
